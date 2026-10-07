@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
 /* ───────────────────────────────────────────────────────────
@@ -41,6 +41,7 @@
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --label:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+    --ui:"Inter Tight","Inter",-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 
   --g:clamp(20px,5vw,64px);
 }
@@ -258,7 +259,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   border-bottom:.4cqw solid #DED3BE;padding:0 2%;
 }
 .bars__b{flex:1;background:#C8B79A;border-radius:1.2cqw 1.2cqw 0 0;min-height:1cqw}
-.bars__b[data-hi="1"]{background:#5E7A4F}
+
 .xax{display:flex;gap:5%;margin-top:2.4%}
 .xax span{flex:1;text-align:center;font-family:var(--mono);font-size:2.1cqw;color:#9C9080}
 .empty{
@@ -421,6 +422,88 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   .hero__device{transform:translateY(5%)}
 }
 @media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+
+/* ══ PALETTE v2 — warm cream, cool ink, teal accent ════════════════
+   The middle ground between the old apothecary beige and a stark
+   white Travio clone. Colour + type only; no layout or DOM changes.
+
+   paper   #F4F1EA  chroma .041 — warm, but half as orange as before
+   card    #FFFDF8  cream, reads as a card at 1.11:1 against paper
+   ink     #141210  near-black, slightly warm
+   muted   #7A7367  desaturated warm grey, 4.62:1 on card
+   accent  #2D7D5F  hue 159deg — green's health cue, blue's precision
+   border  rgba(20,18,16,.11) — cool and quiet, no longer beige
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── screen & chrome ── */
+.screen{background:#F4F1EA}
+.statusbar{color:#141210}
+.statusbar i{background:#141210}
+
+/* ── panes ── */
+.app{background:#F4F1EA;color:#141210}
+.app__greet{color:#141210;font-family:var(--ui);letter-spacing:-.022em;font-weight:700}
+.app__sub{color:#7A7367;font-family:var(--ui);font-weight:500}
+
+/* ── streak card ── */
+.streak{background:#FFFDF8;border-color:rgba(20,18,16,.11)}
+.streak__flame{color:#2D7D5F}
+.streak__n{color:#141210}
+.streak__lab{color:#7A7367;font-family:var(--ui);font-weight:500}
+.streak__today{color:#141210;font-family:var(--ui);font-weight:600}
+.streak__frac{color:#7A7367}
+.ring{border-color:rgba(20,18,16,.11);
+      background:conic-gradient(#2D7D5F calc(var(--p,0) * 1%), rgba(20,18,16,.11) 0)}
+.ring b{color:#141210}
+
+/* ── search ── */
+.search{background:#FFFDF8;border-color:rgba(20,18,16,.11);color:#8C8578}
+.search__i{color:#7A7367}
+
+/* ── section heads ── */
+.shead__i{color:#2D7D5F}
+.shead__t{color:#141210;font-family:var(--ui);font-weight:600;letter-spacing:-.012em}
+
+/* ── dose rows ── */
+.dose{background:#FFFDF8;border-color:rgba(20,18,16,.11)}
+.dose__name{color:#141210;font-family:var(--ui);font-weight:600;letter-spacing:-.012em}
+.dose__meta{color:#7A7367}
+.dose__tag{background:rgba(45,125,95,.10);color:#2D7D5F}
+.dose__box{border-color:rgba(20,18,16,.22)}
+.dose:hover{border-color:rgba(45,125,95,.38)}
+.dose[data-done="1"]{background:#F1EFE8;border-color:rgba(20,18,16,.07)}
+.dose[data-done="1"] .dose__name{color:#7A7367}
+.dose[data-done="1"] .dose__box{background:#2D7D5F;border-color:#2D7D5F;color:#FFFDF8}
+.dose:focus-visible{outline-color:#2D7D5F}
+
+/* ── summary row ── */
+.sumrow{color:#7A7367;font-family:var(--ui);font-weight:500}
+.sumrow b{color:#141210}
+.sumrow .stock{color:#B4531F}
+
+/* ── progress ── */
+.stat{background:#FFFDF8;border-color:rgba(20,18,16,.11)}
+.stat__n{color:#141210}
+.stat__l{color:#7A7367;font-family:var(--ui);font-weight:500}
+.stat__i{color:#2D7D5F}
+.bars__b{background:#2D7D5F}
+.bars__b--off{background:rgba(20,18,16,.10)}
+.bars__l{color:#7A7367}
+.empty{color:#7A7367;font-family:var(--ui)}
+
+
+/* ── leftover greys/greens from the old palette ── */
+.bars__b[data-hi="1"]{background:#2D7D5F}
+.sumrow i{color:#B4531F}
+
+/* ── tab bar ── */
+.tabs{background:#FFFDF8;border-top-color:rgba(20,18,16,.11)}
+.tab{color:#8C8578}
+.tab__l{font-family:var(--ui);font-weight:600}
+.tab[aria-selected="true"]{background:rgba(45,125,95,.13);color:#141210}
+.tab[aria-selected="true"] .tab__i{color:#2D7D5F}
+.tab:focus-visible{outline-color:#2D7D5F}
+
 </style>
 </head>
 
@@ -555,6 +638,9 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
             <div class="rows" id="msRows" style="margin-top:3%"></div>
           </div>
 
+
+        </div>
+
           <!-- ── tab bar ───────────────────────────────────── -->
           <div class="tabs" role="tablist" aria-label="Sections">
             <button class="tab" type="button" role="tab" id="t-today" aria-controls="today" aria-selected="true">
@@ -567,8 +653,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
               <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 20.5h17"/><path d="M4 17.2l4.6-5.3 3.4 2.6L20 6.2"/><path d="M15.4 6.2H20v4.6"/></svg></span><span class="tab__l">Progress</span>
             </button>
           </div>
-
-        </div>
+      </div>
       </div>
     </div>
   </div>
@@ -822,11 +907,11 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
   function stockHTML(s) {
     return '<button class="dose" type="button">' +
-      '<span class="dose__box" style="background:#5E7A4F;border-color:#5E7A4F;color:#FFFDF8;font-size:2.5cqw;font-weight:700">' +
+      '<span class="dose__box" style="background:#2D7D5F;border-color:#2D7D5F;color:#FFFDF8;font-size:2.5cqw;font-weight:700">' +
         s.d.replace('d','') + '</span>' +
       '<span class="dose__txt"><span class="dose__name">' + s.n + '</span>' +
       '<span class="dose__meta">' + s.m + '</span></span>' +
-      '<span class="dose__tag" style="background:#E2EBDC;color:#4A6340">' + s.s + '</span></button>';
+      '<span class="dose__tag" style="background:rgba(45,125,95,.10);color:#2D7D5F">' + s.s + '</span></button>';
   }
 
   var todayRows = document.getElementById('todayRows');
