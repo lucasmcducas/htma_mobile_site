@@ -147,6 +147,8 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   scrollbar-width:none;display:flex;flex-direction:column;
 }
 .pane::-webkit-scrollbar{display:none}
+/* `hidden` must win over display:flex or every pane renders at once */
+.pane[hidden]{display:none}
 .app__eyebrow{font-family:var(--label);font-size:2.6cqw;color:#8A7E6E;letter-spacing:.06em}
 .app__greet{
   font-size:6.6cqw;font-weight:500;letter-spacing:-.03em;margin:2px 0 0;
@@ -209,12 +211,17 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   font-size:3.4cqw;color:#5E7A4F;
 }
 .dose[data-done="1"] .dose__box{background:#5E7A4F;border-color:#5E7A4F;color:#FFFDF8}
-.dose__name{font-family:var(--label);font-size:3.1cqw;font-weight:700;color:#15110E;line-height:1.2}
-.dose__meta{font-family:var(--label);font-size:2.5cqw;color:#8A7E6E;margin-top:1px}
+.dose__txt{display:block;min-width:0;flex:1 1 auto}
+.dose__name{
+  display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--label);font-size:3cqw;font-weight:700;
+  color:#15110E;line-height:1.15;
+}
+.dose__meta{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-family:var(--label);font-size:2.5cqw;color:#8A7E6E;margin-top:.8px;line-height:1.2}
 .dose__tag{
-  margin-left:auto;flex:0 0 auto;
-  font-family:var(--label);font-size:2.3cqw;font-weight:600;
-  color:#6B5B3E;background:#EFE6D2;border-radius:1.6cqw;padding:1.4% 5%;
+  margin-left:auto;flex:0 0 auto;align-self:center;
+  font-family:var(--label);font-size:2.2cqw;font-weight:600;line-height:1.2;
+  color:#6B5B3E;background:#EFE6D2;border-radius:1.6cqw;padding:1.2cqw 2.6cqw;
+  white-space:nowrap;
 }
 
 /* protocol screen extras */
@@ -808,7 +815,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   function rowHTML(p) {
     return '<button class="dose" type="button">' +
       '<span class="dose__box" aria-hidden="true"></span>' +
-      '<span><span class="dose__name">' + p.n + '</span>' +
+      '<span class="dose__txt"><span class="dose__name">' + p.n + '</span>' +
       '<span class="dose__meta">' + p.m + '</span></span>' +
       '<span class="dose__tag">' + p.t + '</span></button>';
   }
@@ -817,7 +824,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
     return '<button class="dose" type="button">' +
       '<span class="dose__box" style="background:#5E7A4F;border-color:#5E7A4F;color:#FFFDF8;font-size:2.5cqw;font-weight:700">' +
         s.d.replace('d','') + '</span>' +
-      '<span><span class="dose__name">' + s.n + '</span>' +
+      '<span class="dose__txt"><span class="dose__name">' + s.n + '</span>' +
       '<span class="dose__meta">' + s.m + '</span></span>' +
       '<span class="dose__tag" style="background:#E2EBDC;color:#4A6340">' + s.s + '</span></button>';
   }
@@ -870,26 +877,31 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
   document.getElementById('msRows').innerHTML =
     '<div class="dose" data-done="1"><span class="dose__box">&#10003;</span>' +
-      '<span><span class="dose__name">30 days on protocol</span>' +
+      '<span class="dose__txt"><span class="dose__name">30 days on protocol</span>' +
       '<span class="dose__meta">Reached 14 June</span></span></div>' +
     '<div class="dose" data-done="1"><span class="dose__box">&#10003;</span>' +
-      '<span><span class="dose__name">First full week logged</span>' +
+      '<span class="dose__txt"><span class="dose__name">First full week logged</span>' +
       '<span class="dose__meta">Reached 23 June</span></span></div>';
 
   /* tab switching */
   var tabs = document.querySelectorAll('.tab');
   var panes = document.querySelectorAll('.pane');
+  function showTab(want) {
+    tabs.forEach(function (o) {
+      o.setAttribute('aria-selected', String(o.id === 't-' + want));
+    });
+    panes.forEach(function (p) {
+      p.hidden = p.getAttribute('data-pane') !== want;
+    });
+  }
   tabs.forEach(function (t) {
     t.addEventListener('click', function () {
-      var want = t.id.replace('t-', '');
-      tabs.forEach(function (o) {
-        o.setAttribute('aria-selected', String(o === t));
-      });
-      panes.forEach(function (p) {
-        p.hidden = p.getAttribute('data-pane') !== want;
-      });
+      showTab(t.id.replace('t-', ''));
     });
   });
+  /* ?tab=protocol renders a specific screen directly (deep links, screenshots) */
+  var q = (location.search.match(/[?&]tab=([a-z]+)/) || [])[1];
+  if (q) showTab(q);
 
   tally();
 })();
