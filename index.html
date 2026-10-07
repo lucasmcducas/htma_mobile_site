@@ -162,7 +162,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   display:flex;align-items:center;gap:5%;margin-top:3cqw;
   background:#FFFDF8;border:1px solid #E6DDCC;border-radius:4.5cqw;padding:2.6cqw 5cqw;
 }
-.streak__flame{font-size:5.6cqw;line-height:1}
+.streak__flame{font-size:5.6cqw;line-height:1;width:4.2cqw;height:4.2cqw;flex:0 0 auto}
 .streak__n{font-family:var(--mono);font-size:5.9cqw;font-weight:500;line-height:1;color:#15110E}
 .streak__lab{font-family:var(--label);font-size:2.2cqw;color:#8A7E6E;margin-top:1px}
 .streak__r{margin-left:auto;text-align:right}
@@ -184,9 +184,10 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
 /* section head */
 .shead{
-  display:flex;align-items:center;gap:3.5%;margin:4.6% 0 2.4%;
+  display:flex;align-items:center;gap:2.6cqw;margin:4.6% 0 2.4%;
   font-family:var(--label);font-size:3.1cqw;font-weight:700;color:#15110E;
 }
+.shead__i{font-size:3.2cqw;line-height:1;width:3cqw;height:3cqw}
 .shead__t{font-family:var(--mono);font-size:2.6cqw;font-weight:400;color:#8A7E6E;margin-left:auto}
 
 /* protocol rows */
@@ -218,7 +219,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
 /* protocol screen extras */
 .search{
-  margin-top:3cqw;display:flex;align-items:center;gap:4%;
+  margin-top:3cqw;display:flex;align-items:center;gap:2.6cqw;
   background:#FFFDF8;border:1px solid #E6DDCC;border-radius:3.2cqw;padding:2.8cqw 5cqw;
   font-family:var(--label);font-size:2.7cqw;color:#9C9080;
 }
@@ -244,7 +245,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 }
 .stat__n{font-family:var(--mono);font-size:5.4cqw;font-weight:500;color:#15110E;line-height:1}
 .stat__l{font-family:var(--label);font-size:2.15cqw;color:#8A7E6E;margin-top:2.5px;line-height:1.2}
-.stat__i{font-size:3.4cqw;line-height:1;margin-bottom:2.5px}
+.stat__i{font-size:3.4cqw;line-height:1;margin:0 auto 2.5px;width:3.6cqw;height:3.6cqw}
 .bars{
   display:flex;align-items:flex-end;gap:5%;height:26cqw;margin-top:3.5%;
   border-bottom:.4cqw solid #DED3BE;padding:0 2%;
@@ -269,7 +270,18 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   display:grid;place-items:center;gap:1px;padding:2.6% 0;border-radius:2.6cqw;
   color:#A99C8A;transition:background .16s ease,color .16s ease;
 }
-.tab__i{font-size:4cqw;line-height:1}
+.tab__i{font-size:4cqw;line-height:1;width:4cqw;height:4cqw}
+.tab__i svg{
+  width:100%;height:100%;display:block;
+  stroke:currentColor;stroke-width:1.7;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.streak__flame svg,.stat__i svg,.shead__i svg,.search__i svg{
+  width:100%;height:100%;display:block;
+  stroke:currentColor;stroke-width:1.6;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.shead__i,.search__i{flex:0 0 auto;width:3cqw;height:3cqw;display:block}
 .tab__l{font-family:var(--label);font-size:2.35cqw;font-weight:600;letter-spacing:.01em}
 .tab[aria-selected="true"]{background:#EDE4D3;color:#3D3126}
 .tab:focus-visible{outline:2px solid #3D3126;outline-offset:1px}
@@ -469,7 +481,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
             <h2 class="app__greet">Good afternoon</h2>
 
             <div class="streak">
-              <span class="streak__flame" aria-hidden="true">&#128293;</span>
+              <span class="streak__flame" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8s4.8 4.6 4.8 9a4.8 4.8 0 1 1-9.6 0c0-4.4 4.8-9 4.8-9Z"/><path d="M12 19.4a2.9 2.9 0 0 1-1-5.5"/></svg></span>
               <div>
                 <div class="streak__n" id="streakN">0</div>
                 <div class="streak__lab">day streak</div>
@@ -493,7 +505,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
           <!-- ── PROTOCOL ──────────────────────────────────── -->
           <div class="pane" data-pane="protocol" hidden>
             <h2 class="app__greet">Your Protocol</h2>
-            <div class="search"><span aria-hidden="true">&#128269;</span> Search supplements&hellip;</div>
+            <div class="search"><span class="search__i" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="10.6" cy="10.6" r="6.4"/><path d="M15.4 15.4 20.4 20.4"/></svg> Search supplements&hellip;</div>
             <div class="sumrow"><span>6 supplements</span><b>&middot;</b><i>0 low stock</i></div>
             <div class="rows" id="protoRows"></div>
           </div>
@@ -504,24 +516,24 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
             <div class="stats">
               <div class="stat">
-                <div class="stat__i" aria-hidden="true">&#128293;</div>
+                <div class="stat__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8s4.8 4.6 4.8 9a4.8 4.8 0 1 1-9.6 0c0-4.4 4.8-9 4.8-9Z"/><path d="M12 19.4a2.9 2.9 0 0 1-1-5.5"/></svg></div>
                 <div class="stat__n" id="pStreak">0</div>
                 <div class="stat__l">Day Streak</div>
               </div>
               <div class="stat">
-                <div class="stat__i" aria-hidden="true">&#128197;</div>
+                <div class="stat__i" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3.4" y="5" width="17.2" height="16" rx="2"/><path d="M3.4 9.6h17.2"/><path d="M8 2.8v4M16 2.8v4M8 13.4h2.4M8 16.8h6.4"/></svg></div>
                 <div class="stat__n" id="daysOn">113</div>
                 <div class="stat__l">Days on Protocol</div>
               </div>
               <div class="stat">
-                <div class="stat__i" aria-hidden="true">&#9711;</div>
+                <div class="stat__i" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.4"/><circle cx="12" cy="12" r="3.6"/></svg></div>
                 <div class="stat__n" id="pToday">0</div>
                 <div class="stat__l">Today</div>
               </div>
             </div>
 
             <div class="shead">
-              <span aria-hidden="true">&#9641;</span>
+              <span class="shead__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.4 4.6h10.2v16.8H9.4z"/><path d="M9.4 9.6h10.2"/><path d="M4.2 4.6h1.8v16.8H4.2z"/></svg></span>
               <span>Supplement Compliance</span>
             </div>
             <div class="app__hint" style="margin:0 0 2%">&bull; Weekly dose adherence</div>
@@ -529,7 +541,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
             <div class="xax"><span>9/14</span><span>9/21</span><span>Last wk</span><span>This wk</span></div>
 
             <div class="shead">
-              <span aria-hidden="true">&#9873;</span>
+              <span class="shead__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 21V3.6"/><path d="M6 4.4h11.6l-2.4 4.2 2.4 4.2H6"/></svg></span>
               <span>Milestones</span>
               <span class="shead__t">&bull; 2 achieved</span>
             </div>
@@ -539,13 +551,13 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
           <!-- ── tab bar ───────────────────────────────────── -->
           <div class="tabs" role="tablist" aria-label="Sections">
             <button class="tab" type="button" role="tab" id="t-today" aria-controls="today" aria-selected="true">
-              <span class="tab__i" aria-hidden="true">&#9728;</span><span class="tab__l">Today</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.4M12 19v2.4M2.6 12h2.4M19 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg></span><span class="tab__l">Today</span>
             </button>
             <button class="tab" type="button" role="tab" id="t-protocol" aria-controls="protocol" aria-selected="false">
-              <span class="tab__i" aria-hidden="true">&#128137;</span><span class="tab__l">Protocol</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.2h18M8 4.5v4.7M16 4.5v4.7M8.4 13.4h3M8.4 16.6h6.4M16.6 13.4h1.6"/></svg></span><span class="tab__l">Protocol</span>
             </button>
             <button class="tab" type="button" role="tab" id="t-progress" aria-controls="progress" aria-selected="false">
-              <span class="tab__i" aria-hidden="true">&#8599;</span><span class="tab__l">Progress</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 20.5h17"/><path d="M4 17.2l4.6-5.3 3.4 2.6L20 6.2"/><path d="M15.4 6.2H20v4.6"/></svg></span><span class="tab__l">Progress</span>
             </button>
           </div>
 
