@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>HTMA Mobile — read your hair test results</title>
+<meta name="description" content="HTMA Mobile reads the relationships in your hair-tissue mineral chart, not just the numbers.">
+<meta name="theme-color" content="#12354C">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ───────────────────────────────────────────────────────────
+   HTMA Mobile
+
+   Hero structure from alpine-notes: full-bleed landscape, light
+   display type sitting in the sky, transparent nav over it, and the
+   device breaking out of the image at bottom-centre.
+
+   Type is NOT Inter/Söhne as alpine-notes uses. Those are the two
+   highest-frequency faces in design briefs (Klim's own research) —
+   swapping them out is the one change worth making. Newsreader at
+   weight 200-300 does the same job: light, large, set tight.
+
+   The landscape is an inline SVG slot, not stock photography.
+   Swap .hero__bg for an <img> when real photography exists.
+   ─────────────────────────────────────────────────────────── */
+
+:root{
+  --paper:#F2F4F5;
+  --ink:#0F1F29;
+  --ink-soft:#4A5C67;
+  --ink-faint:#7C8B94;
+  --accent:#0B6E9B;
+  --rule:rgba(15,31,41,.14);
+  --rule-strong:rgba(15,31,41,.3);
+  --band:#E7EBED;
+
+  --serif:"Newsreader",Georgia,"Times New Roman",serif;
+  --label:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+
+  --g:clamp(20px,5vw,64px);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);font-size:clamp(16px,1.05vw,18px);
+  line-height:1.55;font-weight:350;-webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+img,svg{max-width:100%;display:block}
+
+.wrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
+.rule{border:0;border-top:1px solid var(--rule);margin:0}
+.eyebrow{font-family:var(--label);font-size:12.5px;letter-spacing:.04em;color:var(--ink-faint);margin:0}
+.vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+h1,h2{
+  font-weight:300;line-height:1.02;letter-spacing:-.024em;margin:0;
+  font-variation-settings:"opsz" 60;text-wrap:balance;
+}
+h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
+.lede{
+  font-size:clamp(1.02rem,1.4vw,1.24rem);line-height:1.5;
+  color:var(--ink-soft);max-width:46ch;margin:0;
+}
+
+.mark{
+  font-family:var(--serif);font-size:1.2rem;font-weight:400;letter-spacing:-.01em;
+  text-decoration:none;font-variation-settings:"opsz" 60;
+}
+.mark span{
+  font-family:var(--label);font-size:.66em;letter-spacing:.06em;
+  color:var(--ink-faint);margin-left:.5em;vertical-align:.15em;
+}
+
+/* ── HERO: landscape + type in the sky ────────────────────── */
+.hero{
+  position:relative;overflow:hidden;display:flex;flex-direction:column;
+  padding-bottom:clamp(190px,25vw,360px);
+  color:#F2F4F5;
+}
+.hero__bg{position:absolute;inset:0;z-index:0}
+.hero__bg svg{width:100%;height:100%}
+.hero__veil{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(9,28,42,.52) 0%,rgba(9,28,42,.04) 34%,rgba(9,28,42,.1) 62%,rgba(242,244,245,0) 88%);
+}
+.hero > *:not(.hero__bg):not(.hero__veil){position:relative;z-index:2}
+
+.hero__nav{
+  display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding-block:22px;
+}
+.mark--onimage{color:#F2F4F5}
+.mark--onimage span{color:rgba(242,244,245,.7)}
+.hero__nav a{
+  color:rgba(242,244,245,.88);text-decoration:none;
+  font-family:var(--label);font-size:13px;letter-spacing:.03em;
+  border-bottom:1px solid transparent;padding-block:5px;transition:color .18s,border-color .18s;
+}
+.hero__nav a:hover,.hero__nav a:focus-visible{color:#fff;border-bottom-color:rgba(242,244,245,.65)}
+.hero__nav a:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+.hero__copy{text-align:center;padding:clamp(48px,10vh,110px) var(--g) 0}
+.hero__copy h1{
+  font-size:clamp(2.7rem,8.6vw,7.2rem);font-weight:200;line-height:.96;
+  letter-spacing:-.035em;font-variation-settings:"opsz" 72;
+  margin:0 auto;max-width:16ch;
+}
+.hero__copy p{
+  margin:26px auto 0;max-width:44ch;
+  font-size:clamp(1.02rem,1.35vw,1.2rem);line-height:1.5;color:rgba(242,244,245,.9);
+}
+
+/* ── the device, breaking out of the landscape ───────────── */
+.hero__device{
+  width:min(340px,84vw);margin:clamp(40px,6vw,84px) auto 0;transform:translateY(46%);
+}
+.phone{
+  position:relative;padding:8px;border-radius:52px;
+  border:1px solid rgba(242,244,245,.32);background:#0B141A;
+  box-shadow:0 30px 70px rgba(6,20,30,.42),inset 0 2px 0 rgba(255,255,255,.14);
+  aspect-ratio:390/844;
+}
+.screen{
+  height:100%;border-radius:44px;overflow:hidden;background:#101A21;
+  display:flex;flex-direction:column;color:#EDF1F3;container-type:inline-size;
+}
+.statusbar{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:17px 27px 0;font-size:12px;color:rgba(237,241,243,.82);
+}
+.statusbar i{font-style:normal;letter-spacing:.12em;opacity:.7}
+
+.app{padding:6% 7% 0;flex:1;display:flex;flex-direction:column}
+.app__eyebrow{font-family:var(--label);font-size:3.1cqw;color:rgba(237,241,243,.52)}
+.app__title{
+  font-size:6.4cqw;font-weight:300;letter-spacing:-.03em;margin:7px 0 0;
+  font-variation-settings:"opsz" 30;
+}
+.app__hint{
+  font-family:var(--label);font-size:2.85cqw;line-height:1.45;
+  color:rgba(237,241,243,.52);margin:8px 0 0;
+}
+.mgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2.2cqw;margin-top:4.5%}
+.mbtn{
+  text-align:left;cursor:pointer;background:transparent;color:inherit;font:inherit;
+  border:1px solid rgba(237,241,243,.16);border-radius:3px;padding:4.6% 6%;
+  transition:border-color .16s ease,background .16s ease;
+}
+.mbtn:hover{border-color:rgba(237,241,243,.34)}
+.mbtn:focus-visible{outline:2px solid #7FBBDD;outline-offset:2px}
+.mbtn[data-on="1"]{border-color:#7FBBDD;background:rgba(127,187,221,.1)}
+.mbtn[data-on="2"]{border-color:#9ECBE4;background:rgba(127,187,221,.18)}
+.mbtn b{display:block;font-size:3.8cqw;font-weight:400;letter-spacing:-.01em;font-variation-settings:"opsz" 20}
+.mbtn u{
+  display:block;text-decoration:none;font-family:var(--mono);font-size:3cqw;
+  font-variant-numeric:tabular-nums;color:rgba(237,241,243,.72);margin-top:4px;
+}
+.mbtn s{
+  display:block;text-decoration:none;font-family:var(--label);font-size:2.4cqw;
+  color:rgba(237,241,243,.44);margin-top:2px;
+}
+.mbtn[data-flag="lo"] u{color:#E0AE84}
+.mbtn[data-flag="hi"] u{color:#DE9E9E}
+
+/* the reading — this is the product's actual job */
+.readout{
+  margin-top:4.5%;border:1px solid rgba(127,187,221,.42);
+  background:rgba(127,187,221,.08);border-radius:3px;padding:4.6% 6%;min-height:33cqw;
+}
+.readout__ratio{
+  font-family:var(--mono);font-size:6.2cqw;font-variant-numeric:tabular-nums;
+  letter-spacing:-.01em;color:#CFE7F5;line-height:1;
+}
+.readout__pair{
+  font-family:var(--label);font-size:2.65cqw;color:rgba(237,241,243,.55);margin-top:6px;
+}
+.readout__verdict{
+  font-size:3.55cqw;line-height:1.35;color:#EDF1F3;margin:9px 0 0;
+  font-variation-settings:"opsz" 18;
+}
+.readout__verdict em{font-style:italic;color:#9ECBE4}
+.readout__idle{
+  font-family:var(--label);font-size:2.85cqw;line-height:1.5;color:rgba(237,241,243,.46);margin:0;
+}
+.app__foot{
+  font-family:var(--label);font-size:2.35cqw;color:rgba(237,241,243,.34);
+  margin:4.5% 0 0;text-align:center;
+}
+
+/* ── store buttons ───────────────────────────────────────── */
+.stores{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:0 auto}
+.store{
+  display:inline-flex;align-items:center;gap:11px;min-height:48px;
+  padding:9px 19px 9px 15px;border:1px solid var(--rule-strong);border-radius:2px;
+  background:transparent;color:var(--ink);text-decoration:none;cursor:pointer;
+  transition:background .18s,color .18s,border-color .18s;
+}
+.store:hover,.store:focus-visible{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.store:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.store[aria-disabled="true"]{opacity:.5;cursor:not-allowed}
+.store[aria-disabled="true"]:hover{background:transparent;color:var(--ink);border-color:var(--rule-strong)}
+.store__glyph{flex:none}
+.store__txt{display:flex;flex-direction:column;line-height:1.15;text-align:left}
+.store__txt b{font-family:var(--serif);font-size:15px;font-weight:400}
+.store__txt i{
+  font-style:normal;font-family:var(--label);font-size:11.5px;
+  letter-spacing:.02em;opacity:.75;margin-top:2px;
+}
+
+/* ── sections ────────────────────────────────────────────── */
+.section{padding-block:clamp(52px,7vw,96px)}
+.section__head{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  gap:clamp(22px,4vw,64px);align-items:end;margin-bottom:clamp(30px,4vw,54px);
+}
+.rows{border-top:1px solid var(--rule-strong)}
+.row{
+  display:grid;grid-template-columns:4.2rem minmax(0,15rem) minmax(0,1fr);
+  gap:clamp(14px,2.6vw,34px);padding-block:clamp(20px,2.4vw,30px);
+  border-bottom:1px solid var(--rule);align-items:baseline;
+}
+.row__n{font-family:var(--label);font-size:13px;letter-spacing:.04em;color:var(--accent)}
+.row__t{font-size:1.12em;font-weight:400;font-variation-settings:"opsz" 30;letter-spacing:-.012em}
+.row p{margin:0;color:var(--ink-soft);max-width:56ch}
+
+.band{background:var(--band)}
+.compare{border-top:1px solid var(--rule-strong);margin:0}
+.compare__row{
+  display:grid;grid-template-columns:7.5rem minmax(0,1fr);
+  gap:clamp(14px,2.6vw,32px);padding-block:22px;
+  border-bottom:1px solid var(--rule);align-items:baseline;
+}
+.compare__key{font-family:var(--label);font-size:13.5px;color:var(--ink-soft)}
+.compare__key--accent{color:var(--accent)}
+.compare__body p{margin:0 0 .5em;max-width:54ch}
+.compare__body p:last-child{margin:0}
+
+.m{border-top:1px solid var(--rule-strong)}
+.m__head,.m__t tbody tr{
+  display:grid;grid-template-columns:2.6rem minmax(0,1fr) minmax(0,7.2rem) minmax(0,8.2rem);
+  gap:clamp(10px,1.6vw,20px);align-items:baseline;
+}
+.m__head{
+  padding-block:12px;border-bottom:1px solid var(--rule-strong);
+  font-family:var(--label);font-size:11px;letter-spacing:.06em;color:var(--ink-faint);
+}
+.m__t{width:100%;border-collapse:collapse}
+.m__t tr{border-bottom:1px solid var(--rule)}
+.m__t th,.m__t td{padding-block:10px;font-weight:400}
+.m__n{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.m__sym{font-family:var(--serif);font-size:1rem}
+.m__v{font-family:var(--mono);font-size:12.5px;font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-soft)}
+.m__flag{font-family:var(--label);font-size:13px;padding-left:10px;border-left:2px solid transparent;white-space:nowrap}
+.m__flag--ok{color:var(--ink-soft);border-left-color:var(--rule-strong)}
+.m__flag--mid{color:var(--ink);border-left-color:var(--ink-soft)}
+.m__flag--hi{color:var(--accent);border-left-color:var(--accent)}
+.m__flag--ref{color:var(--ink-faint);border-left-color:var(--rule)}
+.m__foot{margin-top:14px;font-size:12px;color:var(--ink-faint);max-width:58ch}
+
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,40px);margin-top:clamp(24px,3.6vw,44px)}
+.fact{border-top:1px solid var(--rule-strong);padding-top:13px}
+.fact dt{font-family:var(--label);font-size:13px;color:var(--ink-faint);margin:0}
+.fact dd{margin:9px 0 0;font-size:1.04em;line-height:1.45}
+.fact dd b{font-weight:500}
+
+.form{display:grid;gap:20px;max-width:520px}
+.field{display:grid;gap:7px}
+.field label{font-family:var(--label);font-size:13px;color:var(--ink-soft)}
+.field input,.field textarea{
+  font-family:var(--serif);font-size:1rem;color:var(--ink);background:transparent;
+  border:0;border-bottom:1px solid var(--rule-strong);padding:8px 2px;border-radius:0;
+  transition:border-color .18s;
+}
+.field textarea{resize:vertical;min-height:92px;line-height:1.5}
+.field input:focus,.field textarea:focus{outline:none;border-bottom-color:var(--accent)}
+.field input:focus-visible,.field textarea:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{
+  justify-self:start;min-height:48px;padding:13px 30px;
+  background:var(--ink);color:var(--paper);border:1px solid var(--ink);border-radius:2px;
+  font-family:var(--label);font-size:14px;cursor:pointer;transition:background .18s,border-color .18s;
+}
+.btn:hover,.btn:focus-visible{background:var(--accent);border-color:var(--accent)}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.form__note{font-size:12.5px;color:var(--ink-faint);margin:0;max-width:46ch;line-height:1.7}
+
+.foot{background:var(--band);padding-block:clamp(34px,4.4vw,54px)}
+.foot__top{display:flex;justify-content:space-between;gap:26px;flex-wrap:wrap}
+.foot__links{display:flex;gap:clamp(16px,2.4vw,30px);flex-wrap:wrap}
+.foot__links a{
+  font-family:var(--label);font-size:13px;color:var(--ink-soft);text-decoration:none;
+  border-bottom:1px solid transparent;padding-bottom:3px;transition:color .18s,border-color .18s;
+}
+.foot__links a:hover,.foot__links a:focus-visible{color:var(--accent);border-bottom-color:var(--accent)}
+.foot__links a:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.foot__legal{
+  margin-top:clamp(24px,3.2vw,38px);padding-top:18px;border-top:1px solid var(--rule);
+  display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:clamp(16px,3vw,40px);
+}
+.foot__legal p{margin:0;font-size:12.5px;line-height:1.75;color:var(--ink-faint);max-width:72ch}
+.foot__legal p:last-child{text-align:right}
+
+@media (max-width:1000px){
+  .section__head,.foot__legal{grid-template-columns:minmax(0,1fr)}
+  .foot__legal p:last-child{text-align:left}
+}
+@media (max-width:680px){
+  .row{grid-template-columns:3rem minmax(0,1fr);row-gap:7px}
+  .row p{grid-column:2}
+  .compare__row{grid-template-columns:minmax(0,1fr);gap:7px}
+  .facts{grid-template-columns:minmax(0,1fr);gap:16px}
+  .m__head,.m__t tbody tr{grid-template-columns:2.2rem minmax(0,1fr) minmax(0,6.4rem)}
+  .m__head span:nth-child(4),.m__t td:last-child{display:none}
+  .hero__nav a[data-optional]{display:none}
+  .hero{padding-bottom:clamp(140px,42vw,230px)}
+  .hero__device{transform:translateY(34%)}
+}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+</style>
+</head>
+
+<body>
+
+<!-- ── HERO ───────────────────────────────────────────────── -->
+<section class="hero">
+
+  <!-- Landscape slot. Inline SVG ridges with atmospheric perspective —
+       swap for <img src="…"> when real photography exists. -->
+  <div class="hero__bg">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#0E2C42"/>
+          <stop offset="34%"  stop-color="#2A6182"/>
+          <stop offset="68%"  stop-color="#6BA0BE"/>
+          <stop offset="100%" stop-color="#C6DAE5"/>
+        </linearGradient>
+        <linearGradient id="haze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%"   stop-color="#C6DAE5" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#C6DAE5" stop-opacity=".5"/>
+        </linearGradient>
+      </defs>
+      <rect width="1600" height="900" fill="url(#sky)"/>
+      <circle cx="1196" cy="286" r="44" fill="#EEF5F9" opacity=".46"/>
+      <circle cx="1196" cy="286" r="124" fill="#EEF5F9" opacity=".1"/>
+      <path d="M0 512 L130 470 L262 496 L392 452 L528 484 L664 448 L800 490 L940 458 L1082 500 L1222 468 L1364 506 L1502 474 L1600 500 L1600 900 L0 900 Z" fill="#8FB4CB"/>
+      <rect y="430" width="1600" height="150" fill="url(#haze)"/>
+      <path d="M0 616 L104 566 L206 606 L326 552 L438 598 L568 558 L686 612 L806 566 L936 606 L1056 562 L1184 610 L1304 570 L1444 604 L1600 574 L1600 900 L0 900 Z" fill="#5E8BAA"/>
+      <path d="M0 742 L142 686 L282 734 L424 678 L566 730 L706 682 L846 738 L986 696 L1126 744 L1266 700 L1406 748 L1600 712 L1600 900 L0 900 Z" fill="#35627F"/>
+      <path d="M0 856 L182 790 L362 844 L542 782 L722 840 L902 786 L1082 846 L1262 796 L1442 852 L1600 808 L1600 900 L0 900 Z" fill="#1B3D54"/>
+    </svg>
+  </div>
+  <div class="hero__veil" aria-hidden="true"></div>
+
+  <header class="hero__nav wrap">
+    <a class="mark mark--onimage" href="/">HTMA <span>Mobile</span></a>
+    <nav aria-label="Primary">
+      <a href="#reads">Reads</a>
+      <a href="#does">What it does</a>
+      <a href="#contact">Contact</a>
+      <a href="https://htmapro.com" data-optional>Find a practitioner</a>
+    </nav>
+  </header>
+
+  <div class="hero__copy">
+    <h1>Your hair test results, read.</h1>
+    <p>Thirty-one mineral values on a chart. The app reads the
+    <em>relationships</em> between them — which is the only part that means
+    anything.</p>
+  </div>
+
+  <!-- the device, breaking out of the landscape -->
+  <div class="hero__device">
+    <div class="phone">
+      <div class="screen">
+        <div class="statusbar"><span>9:41</span><i>▮▮▮</i></div>
+
+        <div class="app">
+          <div class="app__eyebrow">Demo chart · hair tissue</div>
+          <h2 class="app__title">Tap two minerals</h2>
+          <p class="app__hint">A ratio is where the information is. Both values can
+          sit inside their range and still mean something.</p>
+
+          <div class="mgrid" id="grid" role="group" aria-label="Minerals — select two to read the ratio"></div>
+
+          <div class="readout" id="readout" aria-live="polite">
+            <p class="readout__idle">Select any two values.</p>
+          </div>
+
+          <p class="app__foot">Illustrative values, not a result</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── store CTA, in the gap the device leaves ────────────── -->
+<div class="wrap" style="text-align:center">
+  <div class="stores">
+    <!-- TODO(real URLs): inert until release. No keystore or store listing yet. -->
+    <a class="store" aria-disabled="true" href="#" data-store="ios"
+       aria-label="Download on the App Store — publishing soon">
+      <svg class="store__glyph" width="19" height="21" viewBox="0 0 19 21" fill="currentColor" aria-hidden="true">
+        <path d="M15.6 11.1c0-2.4 2-3.6 2.1-3.6-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3.1 2.4 1.2 0 1.7-.8 3.2-.8s1.9.8 3.2.8c1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8 0 0-2.5-1-2.7-3.9zM13.1 4.1c.7-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.2 1.9-1 3 1 .1 2.1-.5 2.8-1.4z"/>
+      </svg>
+      <span class="store__txt"><b>App Store</b><i>Publishing soon</i></span>
+    </a>
+    <a class="store" aria-disabled="true" href="#" data-store="android"
+       aria-label="Get it on Google Play — publishing soon">
+      <svg class="store__glyph" width="19" height="21" viewBox="0 0 19 21" fill="currentColor" aria-hidden="true">
+        <path d="M1.2.8C.8 1.2.5 1.9.5 2.7v15.6c0 .8.3 1.5.7 1.9l.1.1 8.7-8.7v-.2L1.3.7l-.1.1zM13.1 12.1l-2.9-2.9v-.2l2.9-2.9.1.1 3.5 2c1 .6 1 1.5 0 2.1l-3.5 1.8h-.1zM3.1 17.8l8-8-8-8-3.4 2c-.9.5-1.4 1.4-1.4 2.5v9c0 1.1.5 2 1.4 2.5l3.4-2z"/>
+      </svg>
+      <span class="store__txt"><b>Google Play</b><i>Publishing soon</i></span>
+    </a>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ── what it reads ──────────────────────────────────── -->
+  <section class="section" id="reads">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">What it reads</p>
+        <h2>A snapshot tells you what is moving. A chart tells you what is stored.</h2>
+      </div>
+      <p class="lede">Hair tissue mineral analysis records deposition over roughly
+      three months of growth. Nothing about it is a snapshot — which is what makes
+      the ratios on the chart worth having explained to you.</p>
+    </div>
+
+    <div class="m">
+      <div class="m__head"><span>No.</span><span>Element</span><span>Range</span><span>Reading</span></div>
+      <table class="m__t">
+        <caption class="vh">Illustrative hair-tissue mineral reference ranges with example readings</caption>
+        <tbody>
+          <tr><td class="m__n">01</td><th scope="row"><span class="m__sym">Sodium</span></th><td class="m__v">1.10 – 2.40</td><td><span class="m__flag m__flag--mid">Fast mixed</span></td></tr>
+          <tr><td class="m__n">02</td><th scope="row"><span class="m__sym">Potassium</span></th><td class="m__v">0.60 – 1.40</td><td><span class="m__flag m__flag--mid">Fast mixed</span></td></tr>
+          <tr><td class="m__n">03</td><th scope="row"><span class="m__sym">Calcium</span></th><td class="m__v">2.10 – 2.70</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
+          <tr><td class="m__n">04</td><th scope="row"><span class="m__sym">Phosphorus</span></th><td class="m__v">2.50 – 3.50</td><td><span class="m__flag m__flag--hi">High</span></td></tr>
+          <tr><td class="m__n">05</td><th scope="row"><span class="m__sym">Magnesium</span></th><td class="m__v">1.70 – 3.40</td><td><span class="m__flag m__flag--lo">Low</span></td></tr>
+          <tr><td class="m__n">06</td><th scope="row"><span class="m__sym">Zinc</span></th><td class="m__v">6.00 – 12.00</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
+          <tr><td class="m__n">07</td><th scope="row"><span class="m__sym">Copper</span></th><td class="m__v">4.00 – 8.00</td><td><span class="m__flag m__flag--hi">High</span></td></tr>
+          <tr><td class="m__n">08</td><th scope="row"><span class="m__sym">Iron</span></th><td class="m__v">5.00 – 14.00</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
+        </tbody>
+      </table>
+      <p class="m__foot">Illustrative reference ranges — Trace Elements, published
+      hair-tissue values. Not a result, and not advice.</p>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ── what it does ───────────────────────────────────── -->
+  <section class="section" id="does">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">What it does</p>
+        <h2>Four things, done properly.</h2>
+      </div>
+      <p class="lede">A chart with forty numbers on it is not information. The app
+      finds the patterns, tells you which ones are worth acting on, and keeps
+      tracking them across retests.</p>
+    </div>
+
+    <div class="rows">
+      <div class="row">
+        <div class="row__n">01</div>
+        <div class="row__t">Read your chart</div>
+        <p>Upload a report from any lab, or have one sent to you directly.
+        No re-keying forty values by hand.</p>
+      </div>
+      <div class="row">
+        <div class="row__n">02</div>
+        <div class="row__t">See the patterns</div>
+        <p>Ratio patterns like Four Lows and adrenal or thyroid groupings,
+        flagged in plain language rather than mineral shorthand.</p>
+      </div>
+      <div class="row">
+        <div class="row__n">03</div>
+        <div class="row__t">Follow a protocol</div>
+        <p>Recommendations drawn from your own results, with supplement doses
+        and a day-to-day plan you can actually keep.</p>
+      </div>
+      <div class="row">
+        <div class="row__n">04</div>
+        <div class="row__t">Send it on</div>
+        <p>Share the report with your practitioner in one tap, and compare side
+        by side when you retest.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ── blood vs hair ──────────────────────────────────── -->
+  <section class="section band" id="blood" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">Why hair</p>
+        <h2>Blood is a photograph. Hair is a film.</h2>
+      </div>
+      <p class="lede">Blood shows what is in circulation right now, and your body
+      works hard to keep those numbers steady by pulling from tissue. Hair records
+      what was actually stored.</p>
+    </div>
+
+    <div class="compare">
+      <div class="compare__row">
+        <div class="compare__key">Blood</div>
+        <div class="compare__body">
+          <p>Measures what is moving at one moment. Read a different value on a
+          different day without anything about you having changed.</p>
+          <p>A snapshot can look fine while the pattern underneath it is not.</p>
+        </div>
+      </div>
+      <div class="compare__row">
+        <div class="compare__key compare__key--accent">Hair</div>
+        <div class="compare__body">
+          <p>Records deposition across roughly three months of growth. The ratios
+          are the point, and they need someone who knows how to read them.</p>
+          <p>That is what the app is for — and what your practitioner is for.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ── method ─────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">The method</p>
+        <h2>Forty years old. Not a trend.</h2>
+      </div>
+      <div>
+        <p class="lede">Hair tissue mineral analysis was pioneered by Dr. Paul Eck
+        and refined by Dr. Lawrence Wilson. The app is a reading tool for that
+        methodology — it does not replace the person who ordered your test.</p>
+        <dl class="facts">
+          <div class="fact"><dt>Method</dt><dd><b>40+ years</b> of clinical use</dd></div>
+          <div class="fact"><dt>Sample</dt><dd><b>Non-invasive</b> — a lock of hair</dd></div>
+          <div class="fact"><dt>Window</dt><dd><b>~3 months</b> of deposition</dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ── contact ────────────────────────────────────────── -->
+  <section class="section" id="contact">
+    <div class="section__head">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <h2>Questions, bugs, or an awkward chart.</h2>
+      </div>
+      <p class="lede">Tell us what you are trying to do and we will answer plainly.
+      If the app is showing you a wrong number, say so.</p>
+    </div>
+
+    <!-- TODO(endpoint): needs a real form backend; falls back to the mail client. -->
+    <form class="form" action="mailto:hello@htma.mobile" method="post" enctype="text/plain">
+      <div class="field">
+        <label for="f-name">Your name</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Jane Doe" required>
+      </div>
+      <div class="field">
+        <label for="f-email">Email</label>
+        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required>
+      </div>
+      <div class="field">
+        <label for="f-msg">Message</label>
+        <textarea id="f-msg" name="message" rows="4" placeholder="What do you need?"></textarea>
+      </div>
+      <button class="btn" type="submit">Send</button>
+      <p class="form__note">We reply to product questions ourselves. Nothing here is
+      medical advice — for interpretation, talk to the practitioner who ordered your test.</p>
+    </form>
+  </section>
+
+  <footer class="foot" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
+    <div class="foot__top">
+      <a class="mark" href="/">HTMA <span>Mobile</span></a>
+      <div class="foot__links">
+        <a href="#privacy">Privacy</a>
+        <a href="#terms">Terms</a>
+        <a href="#contact">Contact</a>
+        <a href="https://htmapro.com">htmapro.com</a>
+      </div>
+    </div>
+    <div class="foot__legal">
+      <!-- TODO(real text): privacy and terms are placeholders. -->
+      <p>HTMA Mobile is a screening and record-keeping tool. It is not a diagnostic
+      test and does not provide medical advice, diagnosis or treatment. Hair tissue
+      mineral analysis is not a substitute for assessment by a qualified clinician.
+      Always consult a qualified healthcare professional before starting any
+      supplement protocol or making changes to your treatment.</p>
+      <p>&copy; 2026 HTMA Mobile<br>Part of HTMA Pro</p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* A working mini-demo of the product's actual claim: the ratio, not the number.
+   Values are illustrative. Interpretation thresholds follow the standard HTMA
+   reading of Na/K and Ca/P. This is a demonstration, not advice. */
+(function () {
+  var MINERALS = [
+    { id:'na', name:'Sodium',     v:2.40, flag:'hi', note:'Fast mixed' },
+    { id:'k',  name:'Potassium',  v:0.78, flag:'lo', note:'Fast mixed' },
+    { id:'ca', name:'Calcium',    v:2.20, flag:'ok', note:'In range'  },
+    { id:'p',  name:'Phosphorus', v:3.20, flag:'hi', note:'High'      },
+    { id:'mg', name:'Magnesium',  v:1.20, flag:'lo', note:'Low'       },
+    { id:'zn', name:'Zinc',       v:7.40, flag:'ok', note:'In range'  },
+    { id:'cu', name:'Copper',     v:7.60, flag:'hi', note:'High'      },
+    { id:'fe', name:'Iron',       v:8.10, flag:'ok', note:'In range'  }
+  ];
+
+  var READ = {
+    'na/k': function (r) {
+      if (r >= 4) return '<em>Fast metabolism.</em> Sodium high relative to potassium usually points to adrenal demand and a stress response.';
+      if (r < 2)  return '<em>Slow metabolism.</em> Sodium low relative to potassium.';
+      return 'Both values read normally on their own. The ratio is the finding.';
+    },
+    'ca/p': function (r) {
+      if (r < 1.7) return '<em>Slow metabolism, calcium low.</em> Commonly read alongside thyroid function.';
+      if (r > 3)   return '<em>Fast metabolism.</em> Calcium high relative to phosphorus.';
+      return 'Within the usual 1.7&ndash;3 band.';
+    },
+    'mg/na': function (r) {
+      if (r < 0.4) return '<em>Magnesium very low.</em> Often read with adrenal and sodium/potassium findings.';
+      return '<em>Magnesium low.</em> Common alongside stress patterns.';
+    },
+    'zn/cu': function (r) {
+      if (r < 5)   return '<em>Zinc low relative to copper.</em> One of the most watched pairs in HTMA practice.';
+      return '<em>Zinc below copper.</em> Frequently seen with copper-toxicity indicators.';
+    }
+  };
+
+  var picked = [];
+  var grid = document.getElementById('grid');
+  var out  = document.getElementById('readout');
+
+  function byId(id) {
+    for (var i = 0; i < MINERALS.length; i++) if (MINERALS[i].id === id) return MINERALS[i];
+    return null;
+  }
+
+  function render() {
+    if (picked.length < 2) {
+      out.innerHTML = '<p class="readout__idle">' +
+        (picked.length ? 'Now pick one more.' : 'Select any two values.') + '</p>';
+      return;
+    }
+    var a = byId(picked[0]), b = byId(picked[1]);
+    var ratio = a.v / b.v;
+    var msg = READ[a.id + '/' + b.id]
+      ? READ[a.id + '/' + b.id](ratio)
+      : '<em>' + ratio.toFixed(2) + '.</em> Not one of the standard readings &mdash; the app would cross-reference it against symptoms and history.';
+
+    out.innerHTML =
+      '<div class="readout__ratio">' + ratio.toFixed(2) + '</div>' +
+      '<div class="readout__pair">' + a.name + ' &divide; ' + b.name + '</div>' +
+      '<p class="readout__verdict">' + msg + '</p>';
+  }
+
+  MINERALS.forEach(function (m) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'mbtn';
+    b.setAttribute('data-id', m.id);
+    b.setAttribute('data-flag', m.flag);
+    b.innerHTML = '<b>' + m.name + '</b><u>' + m.v.toFixed(2) + '</u><s>' + m.note + '</s>';
+    b.addEventListener('click', function () {
+      var i = picked.indexOf(m.id);
+      if (i > -1) picked.splice(i, 1);
+      else { picked.push(m.id); if (picked.length > 2) picked.shift(); }
+      b.setAttribute('data-on', picked.indexOf(m.id) > -1 ? String(picked.indexOf(m.id) + 1) : '0');
+      render();
+    });
+    grid.appendChild(b);
+  });
+
+  render();
+})();
+
+document.querySelectorAll('.store[data-store]').forEach(function (a) {
+  a.addEventListener('click', function (e) {
+    if (a.getAttribute('aria-disabled') === 'true') e.preventDefault();
+  });
+});
+</script>
+
+</body>
+</html>
