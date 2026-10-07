@@ -29,14 +29,14 @@
    ─────────────────────────────────────────────────────────── */
 
 :root{
-  --paper:#F2F4F5;
-  --ink:#0F1F29;
-  --ink-soft:#4A5C67;
-  --ink-faint:#7C8B94;
-  --accent:#0B6E9B;
-  --rule:rgba(15,31,41,.14);
-  --rule-strong:rgba(15,31,41,.3);
-  --band:#E7EBED;
+  --paper:#F4F1EA;
+  --ink:#141210;
+  --ink-soft:#4A4640;
+  --ink-faint:#736C61;
+  --accent:#27705A;
+  --rule:rgba(20,18,16,.14);
+  --rule-strong:rgba(20,18,16,.3);
+  --band:#EDE9E0;
 
   --serif:"Newsreader",Georgia,"Times New Roman",serif;
   --label:-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
@@ -496,6 +496,32 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 .bars__b[data-hi="1"]{background:#2D7D5F}
 .sumrow i{color:#B4531F}
 
+/* ── feature cards (Ask AI / Assessment) ── */
+.feats{display:flex;flex-direction:column;gap:2cqw;margin-top:3.4cqw}
+.feat{
+  display:flex;align-items:center;gap:4%;
+  background:#FFFDF8;border:1px solid rgba(20,18,16,.11);
+  border-radius:3.4cqw;padding:2.9cqw 4.4cqw;
+  cursor:pointer;font:inherit;color:inherit;text-align:left;width:100%;
+  transition:border-color .16s ease;
+}
+.feat:hover{border-color:rgba(45,125,95,.38)}
+.feat:focus-visible{outline:2px solid #2D7D5F;outline-offset:1px}
+.feat__i{
+  flex:0 0 auto;width:4.6cqw;height:4.6cqw;color:#2D7D5F;
+}
+.feat__i--alt{color:#8A6D3B}
+.feat__i svg,.feat__go svg{
+  width:100%;height:100%;display:block;
+  stroke:currentColor;stroke-width:1.7;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+.feat__txt{display:flex;flex-direction:column;gap:.5cqw;min-width:0}
+.feat__n{font-family:var(--ui);font-size:2.9cqw;font-weight:600;letter-spacing:-.012em;color:#141210}
+.feat__d{font-family:var(--ui);font-size:2.5cqw;font-weight:500;color:#7A7367;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.feat__go{flex:0 0 auto;width:3.2cqw;height:3.2cqw;color:#A8A195;margin-left:auto}
+
 /* ── tab bar ── */
 .tabs{background:#FFFDF8;border-top-color:rgba(20,18,16,.11)}
 .tab{color:#8C8578}
@@ -578,18 +604,38 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
               </div>
               <div class="streak__r">
                 <div class="streak__today">Today</div>
-                <div class="streak__frac"><span id="doneN">0</span> / 8</div>
-                <div class="ring" id="ring" role="img" aria-label="0 of 8 doses logged today">0</div>
+                <div class="streak__frac"><span id="doneN">0</span> / <span id="doneTot">6</span></div>
+                <div class="ring" id="ring" role="img" aria-label="0 of 6 doses logged today">0</div>
               </div>
             </div>
 
             <div class="shead">
-              <span aria-hidden="true">&#10003;</span>
+              <span class="shead__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4.6 12.4l4.6 4.4L19.4 6.8"/></svg></span>
               <span>Today's Protocol</span>
-              <span class="shead__t"><span id="doneH">0</span> / 8</span>
+              <span class="shead__t"><span id="doneH">0</span> / <span id="doneTot2">6</span></span>
             </div>
 
             <div class="rows" id="todayRows"></div>
+
+            <!-- ── features ───────────────────────────────────── -->
+            <div class="feats">
+              <button class="feat" type="button">
+                <span class="feat__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.2l1.9 4.6 4.9.4-3.7 3.2 1.1 4.8L12 13.6l-4.2 2.6 1.1-4.8L5.2 8.2l4.9-.4z"/></svg></span>
+                <span class="feat__txt">
+                  <span class="feat__n">Ask AI</span>
+                  <span class="feat__d">Questions about your results</span>
+                </span>
+                <span class="feat__go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 5.5l7 6.5-7 6.5"/></svg></span>
+              </button>
+              <button class="feat" type="button">
+                <span class="feat__i feat__i--alt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8.4 4.2h7.2l4 4v11.6H8.4z"/><path d="M15.6 4.2v4h4"/><path d="M11 12.6h5M11 16h3"/></svg></span>
+                <span class="feat__txt">
+                  <span class="feat__n">Assessment</span>
+                  <span class="feat__d">Weekly check-in &middot; 2 min</span>
+                </span>
+                <span class="feat__go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.5 5.5l7 6.5-7 6.5"/></svg></span>
+              </button>
+            </div>
           </div>
 
           <!-- ── PROTOCOL ──────────────────────────────────── -->
@@ -872,19 +918,20 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 /* The phone shows the real app: HTMA Pro Client — daily protocol tracking.
    Data mirrors com.htmapro.htma_mobile on the device. Demonstration only. */
 (function () {
+  /* Today's doses, in the order they come due. One row per supplement —
+     split dosing is folded into the dose string, not repeated as a
+     second row. Matches the six items in your stock. */
   var PROTOCOL = [
-    { n:'Cell Restore',  m:'1 capsule — 7:00 PM',  t:'With dinner' },
-    { n:'Cal Mag Fusion',m:'2 capsules — 8:00 AM',  t:'With meals' },
-    { n:'Vitamin D',     m:'1 capsule — 1:00 PM',  t:'With lunch' },
-    { n:'Kelp',          m:'1 capsule — 8:00 AM',  t:'With breakfast' },
-    { n:'Bile Flow',     m:'1 capsule — 1:00 PM',  t:'With meals' },
-    { n:'Fish Oil',      m:'1 capsule — 10:00 PM', t:'With dinner' },
-    { n:'Cal Mag Fusion',m:'2 capsules — 7:00 PM', t:'With meals' },
-    { n:'Magnesium Glycinate', m:'2 capsules — 9:00 PM', t:'With dinner' }
+    { n:'Cal Mag Fusion', m:'2 capsules — 8:00 AM',   t:'With breakfast' },
+    { n:'Kelp',           m:'1 capsule — 8:00 AM',     t:'With breakfast' },
+    { n:'Vitamin D',      m:'1 capsule — 1:00 PM',     t:'With lunch' },
+    { n:'Bile Flow',      m:'1 capsule — 1:00 PM',     t:'With meals' },
+    { n:'Cell Restore',   m:'1 capsule — 7:00 PM',     t:'With dinner' },
+    { n:'Fish Oil',       m:'1 capsule — 10:00 PM',    t:'With dinner' }
   ];
   var STREAK = 47;
   var DAYS_ON = 113;
-  var LOGGED = 5;
+  var LOGGED = 4;
   var STOCK = [
     { n:'Cell Restore', d:'90d', s:'90 pills' },
     { n:'Cal Mag Fusion', d:'45d', s:'270 pills' },
