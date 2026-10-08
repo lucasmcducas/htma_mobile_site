@@ -9,7 +9,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=Instrument+Serif:ital@0;1&family=Bitter:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..700,0..100,0..1;1,9..144,300..700,0..100,0..1&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 
 <style>
 /* ───────────────────────────────────────────────────────────
@@ -29,9 +29,6 @@
    ─────────────────────────────────────────────────────────── */
 
 :root{
-  --rserif:"Instrument Serif","Newsreader",Georgia,serif;
-  --rslab:"Bitter",Georgia,serif;
-  --rsans:"Space Grotesk",-apple-system,"Segoe UI",Roboto,sans-serif;
   --paper:#F4F1EA;
   --ink:#141210;
   --ink-soft:#4A4640;
@@ -555,7 +552,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
 /* ══ middle sections ══════════════════════════════════════════════
    Namespaced r* so these rules cannot reach back into the hero.
-   ═══════════════════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════════ */
 .rwrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
 .rsec{padding-block:clamp(56px,7vw,98px)}
 .rsec--paper{background:var(--paper)}
@@ -674,6 +671,211 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 .rnotes dt{
   font-family:var(--rsans);font-size:.71rem;font-weight:500;
   letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
+}
+.rnotes dd{
+  margin:0;font-family:var(--rsans);font-size:.96rem;line-height:1.6;
+  color:var(--ink-soft);max-width:34ch;
+}
+
+/* ── contact ─────────────────────────────────────────────────────── */
+.rcontact{
+  display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(34px,4.4vw,58px);
+}
+@media(min-width:880px){.rcontact{grid-template-columns:1fr 1fr}}
+.rlede{font-family:var(--rsans);font-size:1rem;line-height:1.64;color:var(--ink-soft);margin:0;max-width:44ch}
+.rform{display:grid;gap:8px;max-width:440px}
+.rform label{
+  font-family:var(--rsans);font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;
+}
+.rform input,.rform textarea{
+  font-family:var(--rsans);font-size:.95rem;color:var(--ink);
+  background:#FFFDF8;border:1px solid var(--rule);border-radius:0;padding:11px 13px;
+}
+.rform input:focus,.rform textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.rform button{
+  justify-self:start;margin-top:12px;
+  font-family:var(--rsans);font-size:.87rem;font-weight:600;
+  background:var(--accent);color:#FFFDF8;border:0;
+  padding:13px 30px;border-radius:999px;cursor:pointer;
+}
+.rform button:hover{background:#1F5A48}
+
+@media(max-width:720px){
+  .rpanel thead{display:none}
+  .rpanel tbody th,.rpanel tbody td{padding:12px 8px 12px 0}
+}
+
+
+:root{
+  --rserif:"Fraunces","Newsreader",Georgia,serif;
+  --rslab:"Bitter",Georgia,serif;
+  --rsans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --rmono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+
+/* ══ PREVIEW ONLY ══════════════════════════════════════════════════
+   Restructure of the middle sections. The hero above is untouched.
+   Every rule is namespaced (r*) so nothing reaches back into it.
+   ═══════════════════════════════════════════════════════════════ */
+.rwrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
+.rsec{padding-block:clamp(56px,7vw,98px)}
+.rsec--card{background:#FFFDF8}
+.rsec--sage{background:#DDE4DC}
+.rsec--warm{background:#E7E1D3;color:#141210}
+.rsec--last{padding-bottom:clamp(80px,10vw,150px)}
+
+/* Eyebrows are field labels off an instrument panel, not marketing copy —
+   mono says that without shouting. */
+.reye{
+  font-family:var(--rmono);font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+  margin:0 0 18px;
+}
+.rsec--warm .reye{color:var(--ink-faint)}
+
+/* ── reads ───────────────────────────────────────────────────────── */
+/* Fraunces has four axes. At its defaults it is a fairly ordinary old-style.
+   These settings are what make it recognisable:
+     opsz 144  — display optical size: extreme thick/thin, high contrast
+     SOFT 0    — no rounding; the terminals stay sharp and drawn
+     WONK 1    — the wonky/quirky alternates (swash g, odd y) engage
+   300 on the weight axis is deliberately light, so the stroke contrast has
+   room to read instead of turning into a black blob at bold weights. */
+.rsec--paper .rh2{
+  font-family:var(--rserif);font-weight:300;letter-spacing:-.018em;
+  line-height:1.02;margin:0;
+  font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
+}
+.rh2--wide{font-size:clamp(2.2rem,5.4vw,4.2rem);max-width:19ch}
+/* The italic clause is the pivot, so it must NOT carry display contrast —
+   opsz 144 hairline strokes plus a slant turns to mud. Pull it down to a
+   text optical size and let the weight difference do the separating. */
+.rh2 em{
+  font-style:italic;font-weight:400;
+  font-variation-settings:"opsz" 48,"SOFT" 0,"WONK" 1;
+}
+
+.rpanelwrap{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(38px,5vw,70px)}
+@media(min-width:960px){
+  .rpanelwrap{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+}
+.rnote{
+  font-family:var(--rsans);font-size:1rem;line-height:1.66;color:var(--ink-soft);
+  align-self:end;border-top:1px solid var(--rule-strong);padding-top:22px;
+}
+.rnote p{margin:0;max-width:40ch}
+
+.rpanel{width:100%;border-collapse:collapse;font-family:var(--rsans)}
+.rpanel caption{
+  text-align:left;font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);
+  padding-bottom:18px;
+}
+.rpanel th,.rpanel td{
+  padding:17px 16px 17px 0;border-bottom:1px solid var(--rule);
+  font-weight:400;text-align:left;font-size:.95rem;
+}
+.rpanel thead th{
+  font-size:.72rem;letter-spacing:.05em;color:var(--ink-faint);
+  padding-bottom:11px;border-bottom-color:var(--rule-strong);
+}
+.rpanel tbody th{font-weight:500;color:var(--ink)}
+.rpanel tbody tr:last-child th,.rpanel tbody tr:last-child td{border-bottom:0}
+/* Numbers are data. Mono with tabular figures keeps the decimal points in a
+   vertical line down the column, which a proportional sans cannot do. */
+.rpanel .num{
+  text-align:right;color:var(--ink-soft);
+  font-family:var(--rmono);font-variant-numeric:tabular-nums;
+  font-size:.88rem;letter-spacing:-.02em;
+}
+.rflag{
+  font-size:.74rem;letter-spacing:.04em;white-space:nowrap;
+  font-family:var(--rmono);text-transform:uppercase;
+}
+.rflag--hi{color:#9A5B12}
+.rflag--ok{color:#2D6B4E}
+.rflag--lo{color:#41607A}
+
+/* ── does: margin note in the gutter, slab feature titles ────────── */
+.rdoes{display:grid;gap:clamp(34px,4.4vw,72px)}
+@media(min-width:940px){
+  .rdoes{grid-template-columns:minmax(0,.82fr) minmax(0,2.4fr)}
+}
+.rdoes__head .reye{margin-bottom:20px}
+.rdoes__note{
+  font-family:var(--rsans);font-size:1rem;line-height:1.66;
+  color:var(--ink-soft);margin:0;max-width:38ch;
+  padding-left:18px;border-left:2px solid var(--accent);
+}
+.rsteps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(30px,3.4vw,46px)}
+@media(min-width:640px){.rsteps{grid-template-columns:1fr 1fr}}
+.rsteps li{display:block}
+.rsteps .rnum{
+  display:block;font-family:var(--rmono);font-size:.68rem;font-weight:600;
+  letter-spacing:.1em;color:var(--accent);
+  padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--rule);
+}
+/* Bitter is a warm slab. Nothing else on the page uses it, so the four
+   feature titles read as a set rather than as four more headlines. */
+.rsteps h3{
+  font-family:var(--rslab);font-weight:600;letter-spacing:-.012em;
+  font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.16;margin:0 0 10px;
+}
+.rsteps p{
+  font-family:var(--rsans);font-size:.95rem;line-height:1.6;
+  color:var(--ink-soft);margin:0;max-width:36ch;
+}
+
+/* ── blood: straight two-up, no eyebrow/headline pairing ──────────── */
+.rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
+@media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
+.rcompare__side h3{
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:#4A5A50;
+  margin:0 0 12px;
+}
+/* opsz 9 + heavy weight is the *text* optical size, which gives a sturdier,
+   less fragile letter at 60px than the display cut does. */
+.rcompare__side .rcompare__big{
+  font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
+  letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
+  font-weight:600;font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
+}
+/* The hair side is the answer, so it is the italic and it goes wonky-soft.
+   Left side is upright and heavy — same face, opposite voice. */
+.rcompare__side--hi .rcompare__big{
+  color:#1F5A48;font-style:italic;font-weight:400;
+  font-variation-settings:"opsz" 60,"SOFT" 20,"WONK" 1;
+}
+.rcompare__side > p:last-child{
+  font-family:var(--rsans);font-size:1rem;line-height:1.64;
+  color:#3E4A42;margin:0;max-width:42ch;
+}
+
+/* ── method: the dark statement ──────────────────────────────────── */
+/* opsz 144 pushes display contrast; the italic below drops to opsz 9 and
+   leans into WONK, so the two lines read as two voices of one face
+   rather than one thing bolded. */
+.rsec--warm .rstatement{
+  font-family:var(--rserif);font-weight:300;
+  font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.02;
+  letter-spacing:-.024em;margin:0;color:#141210;
+  font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
+}
+.rsec--warm .rstatement em{
+  font-style:italic;color:#1F5A48;font-weight:400;
+  font-variation-settings:"opsz" 9,"SOFT" 0,"WONK" 1;
+}
+.rnotes{
+  margin:clamp(38px,5vw,64px) 0 0;display:grid;gap:0;
+  border-top:1px solid var(--rule-strong);
+}
+@media(min-width:880px){.rnotes{grid-template-columns:repeat(3,1fr)}}
+.rnotes > div{padding:24px 0}
+.rnotes dt{
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
 }
 .rnotes dd{
   margin:0;font-family:var(--rsans);font-size:.96rem;line-height:1.6;
@@ -938,7 +1140,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 <section class="rsec rsec--paper" id="reads">
   <div class="rwrap">
     <p class="reye">What it reads</p>
-    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. A chart tells you what is stored.</h2>
+    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. <em>A chart tells you what is stored.</em></h2>
 
     <div class="rpanelwrap">
       <table class="rpanel">
@@ -1222,3 +1424,4 @@ document.querySelectorAll('.store[data-store]').forEach(function (a) {
 
 </body>
 </html>
+
