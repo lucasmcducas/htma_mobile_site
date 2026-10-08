@@ -535,174 +535,29 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
    Namespaced r* so these rules cannot reach back into the hero.
    ═══════════════════════════════════════════════════════ */
 .rwrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
-.rsec{padding-block:clamp(56px,7vw,98px)}
-.rsec--paper{background:var(--paper)}
-.rsec--card{background:#FFFDF8}
-.rsec--sage{background:#DDE4DC}
-.rsec--warm{background:#E7E1D3;color:#141210}
-.rsec--last{padding-bottom:clamp(80px,10vw,150px)}
+/* ══ middle sections ══════════════════════════════════════════════════
+   Namespaced r* so these rules cannot reach back into the hero.
 
-.reye{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
-  margin:0 0 18px;
-}
-.rsec--warm .reye{color:var(--ink-faint)}
+   Section order is the argument: you are on a program, this keeps track,
+   this answers questions, this is why the test is worth doing, and
+   this is how you get one. The report is context, not the pitch.
 
-/* ── reads ───────────────────────────────────────────────────────── */
-.rh2{
-  font-family:var(--rserif);font-weight:400;letter-spacing:-.016em;
-  line-height:1.04;margin:0;
-}
-.rh2--wide{font-size:clamp(2.1rem,5.2vw,4rem);max-width:19ch}
+   Fraunces, used as a scale. opsz tracks point size, so a heading gets
+   the display cut and body-adjacent type gets the text cut — this is
+   what stops the page drifting into spindly hairlines at mid sizes:
 
-.rpanelwrap{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(38px,5vw,70px)}
-@media(min-width:960px){
-  .rpanelwrap{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
-}
-.rnote{
-  font-family:var(--rsans);font-size:1rem;line-height:1.66;color:var(--ink-soft);
-  align-self:end;border-top:1px solid var(--rule-strong);padding-top:22px;
-}
-.rnote p{margin:0;max-width:40ch}
+     90px  w300  opsz 144   display cut, maximum thick/thin
+     67px  w400  opsz  72   confident; reads at a distance
+     46px  w400  opsz  48   text-adjacent, NOT 144 — that falls apart
+     62px  w600  opsz  20   sturdy, for figures that must hold their shape
+     60pxi w400  opsz  60   italic; WONK 1 + SOFT 20 when it is the answer
 
-.rpanel{width:100%;border-collapse:collapse;font-family:var(--rsans)}
-.rpanel caption{
-  text-align:left;font-family:var(--rsans);font-size:.7rem;font-weight:500;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
-  padding-bottom:18px;
-}
-.rpanel th,.rpanel td{
-  padding:17px 16px 17px 0;border-bottom:1px solid var(--rule);
-  font-weight:400;text-align:left;font-size:.95rem;
-}
-.rpanel thead th{
-  font-size:.72rem;letter-spacing:.05em;color:var(--ink-faint);
-  padding-bottom:11px;border-bottom-color:var(--rule-strong);
-}
-.rpanel tbody th{font-weight:500;color:var(--ink)}
-.rpanel tbody tr:last-child th,.rpanel tbody tr:last-child td{border-bottom:0}
-.rpanel .num{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-soft)}
-.rflag{font-size:.79rem;letter-spacing:.02em;white-space:nowrap}
-.rflag--hi{color:#9A5B12}
-.rflag--ok{color:#2D6B4E}
-.rflag--lo{color:#41607A}
-
-/* ── does: margin note in the gutter, slab feature titles ────────── */
-.rdoes{display:grid;gap:clamp(34px,4.4vw,72px)}
-@media(min-width:940px){
-  .rdoes{grid-template-columns:minmax(0,.82fr) minmax(0,2.4fr)}
-}
-.rdoes__head .reye{margin-bottom:20px}
-.rdoes__note{
-  font-family:var(--rsans);font-size:1rem;line-height:1.66;
-  color:var(--ink-soft);margin:0;max-width:38ch;
-  padding-left:18px;border-left:2px solid var(--accent);
-}
-.rsteps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(30px,3.4vw,46px)}
-@media(min-width:640px){.rsteps{grid-template-columns:1fr 1fr}}
-.rsteps li{display:block}
-.rsteps .rnum{
-  display:block;font-family:var(--rsans);font-size:.71rem;font-weight:600;
-  letter-spacing:.16em;color:var(--accent);
-  padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--rule);
-}
-/* The four feature titles read as a set because they share one face,
-   one size and one weight — not because they are the only thing in it. */
-/* Fraunces 600 at opsz 20 rather than a fourth family. Bitter at 27px was
-   the one element still reading as a default slab; this is the sturdy text
-   cut, which is what the size actually wants. */
-.rsteps h3{
-  font-family:var(--rserif);font-weight:600;letter-spacing:-.014em;
-  font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.18;margin:0 0 10px;
-  font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
-}
-.rsteps p{
-  font-family:var(--rsans);font-size:.95rem;line-height:1.6;
-  color:var(--ink-soft);margin:0;max-width:36ch;
-}
-
-/* ── blood: straight two-up, no eyebrow/headline pairing ──────────── */
-.rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
-@media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
-.rcompare__side h3{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.15em;text-transform:uppercase;color:#4A5A50;
-  margin:0 0 12px;
-}
-.rcompare__big{
-  font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
-  letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
-}
-.rcompare__side--hi .rcompare__big{color:#1F5A48}
-.rcompare__side > p:last-child{
-  font-family:var(--rsans);font-size:1rem;line-height:1.64;
-  color:#3E4A42;margin:0;max-width:42ch;
-}
-
-/* ── method: the dark statement ──────────────────────────────────── */
-.rstatement{
-  font-family:var(--rserif);font-weight:400;
-  font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.02;
-  letter-spacing:-.024em;margin:0;color:#141210;
-}
-.rstatement em{font-style:italic;color:#1F5A48}
-.rnotes{
-  margin:clamp(38px,5vw,64px) 0 0;display:grid;gap:0;
-  border-top:1px solid var(--rule-strong);
-}
-@media(min-width:880px){.rnotes{grid-template-columns:repeat(3,1fr)}}
-.rnotes > div{padding:24px 0}
-.rnotes dt{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
-}
-.rnotes dd{
-  margin:0;font-family:var(--rsans);font-size:.96rem;line-height:1.6;
-  color:var(--ink-soft);max-width:34ch;
-}
-
-/* ── contact ─────────────────────────────────────────────────────── */
-.rcontact{
-  display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(34px,4.4vw,58px);
-}
-@media(min-width:880px){.rcontact{grid-template-columns:1fr 1fr}}
-.rlede{font-family:var(--rsans);font-size:1rem;line-height:1.64;color:var(--ink-soft);margin:0;max-width:44ch}
-.rform{display:grid;gap:8px;max-width:440px}
-.rform label{
-  font-family:var(--rsans);font-size:.7rem;font-weight:500;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;
-}
-.rform input,.rform textarea{
-  font-family:var(--rsans);font-size:.95rem;color:var(--ink);
-  background:#FFFDF8;border:1px solid var(--rule);border-radius:0;padding:11px 13px;
-}
-.rform input:focus,.rform textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
-.rform button{
-  justify-self:start;margin-top:12px;
-  font-family:var(--rsans);font-size:.87rem;font-weight:600;
-  background:var(--accent);color:#FFFDF8;border:0;
-  padding:13px 30px;border-radius:999px;cursor:pointer;
-}
-.rform button:hover{background:#1F5A48}
-
-@media(max-width:720px){
-  .rpanel thead{display:none}
-  .rpanel tbody th,.rpanel tbody td{padding:12px 8px 12px 0}
-}
-
-:root{
-  --rserif:"Fraunces","Newsreader",Georgia,serif;
-  --rsans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
-  --rmono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
-}
-
-/* ══ PREVIEW ONLY ══════════════════════════════════════════════════
-   Restructure of the middle sections. The hero above is untouched.
-   Every rule is namespaced (r*) so nothing reaches back into it.
+   Italic never carries display contrast: a hairline plus a slant turns
+   to mud. The weight step alone separates the two voices.
    ═══════════════════════════════════════════════════════════════ */
 .rwrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
 .rsec{padding-block:clamp(56px,7vw,98px)}
+.rsec--paper{background:var(--paper)}
 .rsec--card{background:#FFFDF8}
 .rsec--sage{background:#DDE4DC}
 .rsec--warm{background:#E7E1D3;color:#141210}
@@ -715,29 +570,8 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
   margin:0 0 18px;
 }
-.rsec--warm .reye{color:var(--ink-faint)}
 
-/* ── reads ───────────────────────────────────────────────────────── */
-/* Fraunces has four axes. At its defaults it is a fairly ordinary old-style.
-   These settings are what make it recognisable:
-     opsz 144  — display optical size: extreme thick/thin, high contrast
-     SOFT 0    — no rounding; the terminals stay sharp and drawn
-     WONK 1    — the wonky/quirky alternates (swash g, odd y) engage
-   300 on the weight axis is deliberately light, so the stroke contrast has
-   room to read instead of turning into a black blob at bold weights. */
-/* Fraunces, used as a scale. opsz tracks the point size, so a heading
-   gets the display cut and body-adjacent type gets the text cut — this is
-   what stops the page drifting into spindly hairlines at mid sizes:
-
-     90px  w300  opsz 144   display cut, maximum thick/thin
-     67px  w400  opsz  72   confident; reads at a distance
-     46px  w400  opsz  48   text-adjacent, NOT 144 — that falls apart
-     62px  w600  opsz  20   sturdy, for figures that must hold their shape
-     60pxi w400  opsz  60   italic; WONK 1 + SOFT 20 when it is the answer
-
-   Italic never carries display contrast: a hairline plus a slant turns
-   to mud. The weight step alone separates the two voices. */
-.rsec--paper .rh2{
+.rh2{
   font-family:var(--rserif);font-weight:400;letter-spacing:-.018em;
   line-height:1.04;margin:0;
   font-variation-settings:"opsz" 72,"SOFT" 0,"WONK" 1;
@@ -753,54 +587,37 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   font-style:italic;font-weight:400;
   font-variation-settings:"opsz" 48,"SOFT" 0,"WONK" 1;
 }
+.rlede{
+  font-family:var(--rsans);font-size:1rem;line-height:1.64;
+  color:var(--ink-soft);margin:0;max-width:44ch;
+}
 
-.rpanelwrap{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(38px,5vw,70px)}
-@media(min-width:960px){
-  .rpanelwrap{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+/* ── track: what the app holds for you day to day ─────────────────── */
+.rtrack{
+  display:grid;gap:clamp(26px,3.2vw,44px);margin-top:clamp(34px,4.4vw,58px);
 }
-.rnote{
-  font-family:var(--rsans);font-size:1rem;line-height:1.66;color:var(--ink-soft);
-  align-self:end;border-top:1px solid var(--rule-strong);padding-top:22px;
+@media(min-width:860px){.rtrack{grid-template-columns:repeat(4,1fr)}}
+.rtrack li{list-style:none;border-top:1px solid var(--rule-strong);padding-top:18px}
+.rtrack__n{
+  display:block;font-family:var(--rmono);font-size:.68rem;font-weight:600;
+  letter-spacing:.1em;color:var(--accent);margin-bottom:14px;
 }
-.rnote p{margin:0;max-width:40ch}
+.rtrack h3{
+  font-family:var(--rserif);font-weight:600;font-size:clamp(1.22rem,1.9vw,1.5rem);
+  line-height:1.18;margin:0 0 9px;letter-spacing:-.012em;
+  font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
+}
+.rtrack p{
+  font-family:var(--rsans);font-size:.95rem;line-height:1.58;
+  color:var(--ink-soft);margin:0;max-width:30ch;
+}
+.rtracks{margin:0;padding:0;display:grid}
 
-.rpanel{width:100%;border-collapse:collapse;font-family:var(--rsans)}
-.rpanel caption{
-  text-align:left;font-family:var(--rmono);font-size:.68rem;font-weight:500;
-  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);
-  padding-bottom:18px;
-}
-.rpanel th,.rpanel td{
-  padding:17px 16px 17px 0;border-bottom:1px solid var(--rule);
-  font-weight:400;text-align:left;font-size:.95rem;
-}
-.rpanel thead th{
-  font-size:.72rem;letter-spacing:.05em;color:var(--ink-faint);
-  padding-bottom:11px;border-bottom-color:var(--rule-strong);
-}
-.rpanel tbody th{font-weight:500;color:var(--ink)}
-.rpanel tbody tr:last-child th,.rpanel tbody tr:last-child td{border-bottom:0}
-/* Numbers are data. Mono with tabular figures keeps the decimal points in a
-   vertical line down the column, which a proportional sans cannot do. */
-.rpanel .num{
-  text-align:right;color:var(--ink-soft);
-  font-family:var(--rmono);font-variant-numeric:tabular-nums;
-  font-size:.88rem;letter-spacing:-.02em;
-}
-.rflag{
-  font-size:.74rem;letter-spacing:.04em;white-space:nowrap;
-  font-family:var(--rmono);text-transform:uppercase;
-}
-.rflag--hi{color:#9A5B12}
-.rflag--ok{color:#2D6B4E}
-.rflag--lo{color:#41607A}
-
-/* ── does: margin note in the gutter, slab feature titles ────────── */
+/* ── ask: dictation, and what it knows about ─────────────────────── */
 .rdoes{display:grid;gap:clamp(34px,4.4vw,72px)}
 @media(min-width:940px){
   .rdoes{grid-template-columns:minmax(0,.82fr) minmax(0,2.4fr)}
 }
-.rdoes__head .reye{margin-bottom:20px}
 .rdoes__note{
   font-family:var(--rsans);font-size:1rem;line-height:1.66;
   color:var(--ink-soft);margin:0;max-width:38ch;
@@ -808,57 +625,29 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 }
 .rsteps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(30px,3.4vw,46px)}
 @media(min-width:640px){.rsteps{grid-template-columns:1fr 1fr}}
-.rsteps li{display:block}
 .rsteps .rnum{
   display:block;font-family:var(--rmono);font-size:.68rem;font-weight:600;
   letter-spacing:.1em;color:var(--accent);
   padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--rule);
 }
-/* The four feature titles read as a set because they share one face,
-   one size and one weight — not because they are the only thing in it. */
-
+.rsteps h3{
+  font-family:var(--rserif);font-weight:600;letter-spacing:-.014em;
+  font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.18;margin:0 0 10px;
+  font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
+}
 .rsteps p{
   font-family:var(--rsans);font-size:.95rem;line-height:1.6;
   color:var(--ink-soft);margin:0;max-width:36ch;
 }
 
-/* ── blood: straight two-up, no eyebrow/headline pairing ──────────── */
-.rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
-@media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
-.rcompare__side h3{
-  font-family:var(--rmono);font-size:.68rem;font-weight:500;
-  letter-spacing:.12em;text-transform:uppercase;color:#4A5A50;
-  margin:0 0 12px;
-}
-/* opsz 9 + heavy weight is the *text* optical size, which gives a sturdier,
-   less fragile letter at 60px than the display cut does. */
-.rcompare__side .rcompare__big{
-  font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
-  letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
-  font-weight:600;font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
-}
-/* The hair side is the answer, so it is the italic and it goes wonky-soft.
-   Left side is upright and heavy — same face, opposite voice. */
-.rcompare__side--hi .rcompare__big{
-  color:#1F5A48;font-style:italic;font-weight:400;
-  font-variation-settings:"opsz" 60,"SOFT" 20,"WONK" 1;
-}
-.rcompare__side > p:last-child{
-  font-family:var(--rsans);font-size:1rem;line-height:1.64;
-  color:#3E4A42;margin:0;max-width:42ch;
-}
-
-/* ── method: the dark statement ──────────────────────────────────── */
-/* opsz 144 pushes display contrast; the italic below drops to opsz 9 and
-   leans into WONK, so the two lines read as two voices of one face
-   rather than one thing bolded. */
-.rsec--warm .rstatement{
+/* ── program: the emotional centre, so it gets the statement ─────── */
+.rstatement{
   font-family:var(--rserif);font-weight:300;
   font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.02;
   letter-spacing:-.024em;margin:0;color:#141210;
   font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
 }
-.rsec--warm .rstatement em{
+.rstatement em{
   font-style:italic;color:#1F5A48;font-weight:400;
   font-variation-settings:"opsz" 9,"SOFT" 0,"WONK" 1;
 }
@@ -877,16 +666,39 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   color:var(--ink-soft);max-width:34ch;
 }
 
-/* ── contact ─────────────────────────────────────────────────────── */
+/* ── why hair: blood vs hair, the reasoning argument ──────────────── */
+.rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
+@media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
+.rcompare__side h3{
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:#4A5A50;
+  margin:0 0 12px;
+}
+/* opsz 20 + heavy weight is the sturdy text cut, which is what 62px wants. */
+.rcompare__big{
+  font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
+  letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
+  font-weight:600;font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
+}
+/* The hair side is the answer, so it is the italic and it goes wonky-soft. */
+.rcompare__side--hi .rcompare__big{
+  color:#1F5A48;font-style:italic;font-weight:400;
+  font-variation-settings:"opsz" 60,"SOFT" 20,"WONK" 1;
+}
+.rcompare__side > p:last-child{
+  font-family:var(--rsans);font-size:1rem;line-height:1.64;
+  color:#3E4A42;margin:0;max-width:42ch;
+}
+
+/* ── order + contact ─────────────────────────────────────────────── */
 .rcontact{
   display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(34px,4.4vw,58px);
 }
 @media(min-width:880px){.rcontact{grid-template-columns:1fr 1fr}}
-.rlede{font-family:var(--rsans);font-size:1rem;line-height:1.64;color:var(--ink-soft);margin:0;max-width:44ch}
 .rform{display:grid;gap:8px;max-width:440px}
 .rform label{
-  font-family:var(--rsans);font-size:.7rem;font-weight:500;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;
 }
 .rform input,.rform textarea{
   font-family:var(--rsans);font-size:.95rem;color:var(--ink);
@@ -902,10 +714,14 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 .rform button:hover{background:#1F5A48}
 
 @media(max-width:720px){
-  .rpanel thead{display:none}
-  .rpanel tbody th,.rpanel tbody td{padding:12px 8px 12px 0}
+  .rtrack{grid-template-columns:1fr 1fr}
+  .rsteps{grid-template-columns:1fr}
 }
-
+:root{
+  --rserif:"Fraunces","Newsreader",Georgia,serif;
+  --rsans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --rmono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
 </style>
 </head>
 <body>
@@ -1115,81 +931,93 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
   <!-- ── what it reads ──────────────────────────────────── -->
   
-<!-- ══ reads — the chart as a document ═════════════════════════ -->
-<section class="rsec rsec--paper" id="reads">
+<!-- ══ track — what it holds for you day to day ══════════════════ -->
+<section class="rsec rsec--paper" id="track">
   <div class="rwrap">
-    <p class="reye">What it reads</p>
-    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. <em>A chart tells you what is stored.</em></h2>
+    <p class="reye">What it keeps track of</p>
+    <h2 class="rh2 rh2--wide">Your doses, your symptoms, your notes — <em>all in one place.</em></h2>
 
-    <div class="rpanelwrap">
-      <table class="rpanel">
-        <caption>Sample panel — five of the readings</caption>
-        <thead><tr>
-          <th scope="col">Element</th>
-          <th scope="col" class="num">Reference</th>
-          <th scope="col" class="num">Reading</th>
-          <th scope="col">Flag</th>
-        </tr></thead>
-        <tbody>
-          <tr><th scope="row">Sodium</th>   <td class="num">70 — 200</td><td class="num">118</td><td><span class="rflag rflag--hi">Fast mixed</span></td></tr>
-          <tr><th scope="row">Calcium</th>  <td class="num">80 — 200</td><td class="num">96</td> <td><span class="rflag rflag--ok">In range</span></td></tr>
-          <tr><th scope="row">Magnesium</th><td class="num">28 — 100</td><td class="num">22</td> <td><span class="rflag rflag--lo">Low</span></td></tr>
-          <tr><th scope="row">Zinc</th>     <td class="num">60 — 180</td><td class="num">71</td> <td><span class="rflag rflag--ok">In range</span></td></tr>
-          <tr><th scope="row">Copper</th>   <td class="num">50 — 170</td><td class="num">188</td><td><span class="rflag rflag--hi">High</span></td></tr>
-        </tbody>
-      </table>
-
-      <aside class="rnote">
-        <p>Hair tissue mineral analysis records deposition over roughly three
-        months of growth. The app reads the relationships between the numbers,
-        which is the only part that means anything.</p>
-      </aside>
-    </div>
+    <ol class="rtracks rtrack">
+      <li>
+        <span class="rtrack__n">01</span>
+        <h3>Doses ticked off</h3>
+        <p>Your protocol for the day, with each dose logged as you take it and streaks to show you turning up.</p>
+      </li>
+      <li>
+        <span class="rtrack__n">02</span>
+        <h3>Symptoms logged</h3>
+        <p>A quick note when something changes, so you can see what moved and when — instead of trying to remember.</p>
+      </li>
+      <li>
+        <span class="rtrack__n">03</span>
+        <h3>Your own notes</h3>
+        <p>Anything worth remembering between appointments, written once and read back whenever you need it.</p>
+      </li>
+      <li>
+        <span class="rtrack__n">04</span>
+        <h3>Progress over time</h3>
+        <p>Retests laid side by side, so a change in your chart is something you can see rather than assume.</p>
+      </li>
+    </ol>
   </div>
 </section>
 
-<!-- ══ does — gutter note + slab titles, no headline pairing ═════ -->
-<section class="rsec rsec--card" id="does">
+<!-- ══ ask — dictation, and what it already knows ════════════════ -->
+<section class="rsec rsec--card" id="ask">
   <div class="rwrap">
     <div class="rdoes">
       <div class="rdoes__head">
-        <p class="reye">What it does</p>
-        <p class="rdoes__note">A chart full of numbers is not
-        information. The app finds the patterns, tells you which are worth
-        acting on, and keeps tracking them across retests.</p>
+        <p class="reye">Ask</p>
+        <p class="rdoes__note">It already knows your chart, your doses and
+        what you have been logging. So the questions you actually want to ask
+        get an answer that is about you.</p>
       </div>
 
       <ol class="rsteps">
         <li>
           <span class="rnum">01</span>
-          <h3>Read your chart</h3>
-          <p>Upload a report from any lab, or have one sent to you directly.
-          No re-keying every value by hand.</p>
+          <h3>Type or say it</h3>
+          <p>Dictate straight into the chat when you cannot be bothered to type, or write it out as normal.</p>
         </li>
         <li>
           <span class="rnum">02</span>
-          <h3>See the patterns</h3>
-          <p>Ratio patterns like Four Lows and adrenal or thyroid groupings,
-          flagged in plain language rather than mineral shorthand.</p>
+          <h3>Ask about your own results</h3>
+          <p>What a flagged mineral means for you, why two numbers read oddly
+          together, what to mention at your next appointment.</p>
         </li>
         <li>
           <span class="rnum">03</span>
-          <h3>Follow a protocol</h3>
-          <p>Recommendations drawn from your own results, with supplement
-          doses and a day-to-day plan you can actually keep.</p>
+          <h3>Ask it mid-program</h3>
+          <p>Whether to hold a dose steady or take it with food — the kind of question you would otherwise sit on all week.</p>
         </li>
         <li>
           <span class="rnum">04</span>
-          <h3>Send it on</h3>
-          <p>Share the report with your practitioner in one tap, and compare
-          side by side across retests.</p>
+          <h3>Take it with you</h3>
+          <p>Send the report straight to your practitioner in one tap, or export the data wherever you keep it.</p>
         </li>
       </ol>
     </div>
   </div>
 </section>
 
-<!-- ══ blood — a straight two-up, no head pairing ════════════════ -->
+<!-- ══ program — the centre of the page, so it gets the statement ═ -->
+<section class="rsec rsec--warm" id="program">
+  <div class="rwrap">
+    <p class="reye">If you are already on a program</p>
+    <p class="rstatement">Bring it with you.<br><em>Keep it on track.</em></p>
+    <p class="rlede" style="margin-top:clamp(24px,3vw,38px)">
+    You do not have to start from a blank chart to get value out of this.
+    Enter what you are already taking and when you take it, and the app tracks
+    it against your results from day one.</p>
+    <dl class="rnotes">
+      <div><dt>What it is for</dt><dd>Making a program you are already on easier to keep, and easier to explain at your next appointment.</dd></div>
+      <div><dt>What it is not</dt><dd>It does not tell you to stop what your practitioner prescribed, and it does not replace them.</dd></div>
+      <div><dt>What it adds</dt><dd>A record you have been keeping anyway, held in one place, with someone available to answer questions about it.</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ══ why hair — the one reasoning argument, kept intact ═════════ -->
 <section class="rsec rsec--sage" id="blood">
   <div class="rwrap">
     <p class="reye">Why hair</p>
@@ -1211,39 +1039,28 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   </div>
 </section>
 
-<!-- ══ method — the page's one dark beat, on its strongest line ═══ -->
-<section class="rsec rsec--warm">
-  <div class="rwrap">
-    <p class="reye">The method</p>
-    <p class="rstatement">Forty years old.<br><em>Not a trend.</em></p>
-    <dl class="rnotes">
-      <div><dt>Sample</dt><dd>A lock of hair, cut close to the scalp. No needle, no fasting, no preparation.</dd></div>
-      <div><dt>Window</dt><dd>Roughly three months of deposition — long enough for a pattern, short enough to show change after a retest.</dd></div>
-      <div><dt>Method</dt><dd>ICP-MS spectrometry, the same technique used for soil and water testing.</dd></div>
-    </dl>
-  </div>
-</section>
-
-<!-- ══ contact — the disclaimer becomes the heading ══════════════ -->
+<!-- ══ order + contact — the purchase folded into the close ══════ -->
 <section class="rsec rsec--paper rsec--last" id="contact">
   <div class="rwrap">
-    <p class="reye">Contact</p>
+    <p class="reye">Order a test &amp; contact</p>
     <h2 class="rh2">Screening and record-keeping.<br>Not a diagnosis.</h2>
 
     <div class="rcontact">
       <p class="rlede">Every number on a mineral chart is a measurement, not a
       verdict. For interpretation, talk to the practitioner who ordered your
-      test. If the app is showing you a wrong number, say so.</p>
+      test. Ordering your own report takes a few minutes and about $199, and
+      nothing is shared without you sending it.</p>
       <form class="rform" onsubmit="event.preventDefault()">
-        <label for="pv-em">Email</label>
-        <input id="pv-em" type="email" placeholder="you@example.com">
-        <label for="pv-ms">Message</label>
-        <textarea id="pv-ms" rows="3" placeholder="What happened?"></textarea>
+        <label for="ct-em">Email</label>
+        <input id="ct-em" type="email" placeholder="you@example.com">
+        <label for="ct-ms">Message</label>
+        <textarea id="ct-ms" rows="3" placeholder="What happened?"></textarea>
         <button type="submit">Send</button>
       </form>
     </div>
   </div>
 </section>
+
 <footer class="foot" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
     <div class="foot__top">
       <a class="mark" href="/">HTMA <span>Mobile</span></a>
