@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HTMA Mobile — read your hair test results</title>
+<title>HTMA Mobile — your own personal mineral balancing helper</title>
 <meta name="description" content="HTMA Mobile reads the relationships in your hair-tissue mineral chart, not just the numbers.">
 <meta name="theme-color" content="#12354C">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=IBM+Plex+Mono:wght@400;500&family=Inter+Tight:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400&family=Instrument+Serif:ital@0;1&family=Bitter:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 
 <style>
 /* ───────────────────────────────────────────────────────────
@@ -29,6 +29,9 @@
    ─────────────────────────────────────────────────────────── */
 
 :root{
+  --rserif:"Instrument Serif","Newsreader",Georgia,serif;
+  --rslab:"Bitter",Georgia,serif;
+  --rsans:"Space Grotesk",-apple-system,"Segoe UI",Roboto,sans-serif;
   --paper:#F4F1EA;
   --ink:#141210;
   --ink-soft:#4A4640;
@@ -79,6 +82,22 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   font-family:var(--label);font-size:.66em;letter-spacing:.06em;
   color:var(--ink-faint);margin-left:.5em;vertical-align:.15em;
 }
+
+/* ── direct APK download ── */
+.dl{
+  display:flex;align-items:center;justify-content:center;gap:2.5%;
+  width:fit-content;margin:0 auto 2.6rem;padding:1.05rem 2.4rem;max-width:100%;
+  background:#27705A;color:#FFFDF8;border-radius:999px;
+  text-decoration:none;font:inherit;
+  box-shadow:0 2px 10px rgba(39,112,90,.22);
+  transition:background .16s ease,transform .16s ease;
+}
+.dl:hover{background:#1F5A48;transform:translateY(-1px)}
+.dl:focus-visible{outline:2px solid #141210;outline-offset:3px}
+.dl__glyph{flex:0 0 auto}
+.dl__txt{display:flex;flex-direction:column;gap:2px;text-align:left}
+.dl__txt b{font-size:.98rem;font-weight:600;letter-spacing:-.01em}
+.dl__txt i{font-size:.78rem;font-style:normal;opacity:.78;font-variant-numeric:tabular-nums}
 
 /* ── HERO: landscape + type in the sky ────────────────────── */
 .hero{
@@ -143,7 +162,7 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   background:#F6F1E7;color:#1C1814;overflow:hidden;
 }
 /* the content scrolls like a real app; the tab bar stays pinned */
-.pane{
+.pane{padding-bottom:0;
   flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;
   scrollbar-width:none;display:flex;flex-direction:column;
 }
@@ -270,19 +289,18 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
 /* tab bar */
 .tabs{
-  display:flex;flex:0 0 auto;margin:0 -6%;padding:2.6% 4% 3.4%;
+  display:flex;flex:0 0 auto;margin:0;padding:2.4% 0 3.4%;
   border-top:1px solid #E6DDCC;background:#FFFCF5;
 }
-.tab{
+.tab{flex:1 1 0;min-width:0;
   flex:1;background:none;border:0;cursor:pointer;font:inherit;
-  display:grid;place-items:center;gap:1px;padding:2.6% 0;border-radius:2.6cqw;
+  display:grid;place-items:center;gap:.5px;padding:2.2% 0;border-radius:2.6cqw;
   color:#A99C8A;transition:background .16s ease,color .16s ease;
 }
-.tab__i{font-size:4cqw;line-height:1;width:4cqw;height:4cqw}
+.tab__i{font-size:6.4cqw;line-height:1;width:6.4cqw;height:6.4cqw}
 .tab__i svg{
   width:100%;height:100%;display:block;
-  stroke:currentColor;stroke-width:1.7;fill:none;
-  stroke-linecap:round;stroke-linejoin:round;
+  fill:currentColor;stroke:none;
 }
 .streak__flame svg,.stat__i svg,.shead__i svg,.search__i svg{
   width:100%;height:100%;display:block;
@@ -290,7 +308,8 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   stroke-linecap:round;stroke-linejoin:round;
 }
 .shead__i,.search__i{flex:0 0 auto;width:3cqw;height:3cqw;display:block}
-.tab__l{font-family:var(--label);font-size:2.35cqw;font-weight:600;letter-spacing:.01em}
+.tab__l{font-family:var(--label);font-size:2.9cqw;font-weight:600;
+  letter-spacing:-.01em;white-space:nowrap;color:#5A554D}
 .tab[aria-selected="true"]{background:#EDE4D3;color:#3D3126}
 .tab:focus-visible{outline:2px solid #3D3126;outline-offset:1px}
 
@@ -497,18 +516,20 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 .sumrow i{color:#B4531F}
 
 /* ── feature cards (Ask AI / Assessment) ── */
-.feats{display:flex;flex-direction:column;gap:2cqw;margin-top:3.4cqw}
+.feats{display:flex;flex-direction:column;gap:2.8cqw;
+  margin-top:auto;padding-bottom:7.6cqw}
 .feat{
-  display:flex;align-items:center;gap:4%;
+  display:flex;align-items:center;gap:4.5%;
   background:#FFFDF8;border:1px solid rgba(20,18,16,.11);
-  border-radius:3.4cqw;padding:2.9cqw 4.4cqw;
+  border-radius:3.4cqw;padding:6.4cqw 5.4cqw;
+  box-shadow:0 .8cqw 2.2cqw rgba(20,18,16,.05);
   cursor:pointer;font:inherit;color:inherit;text-align:left;width:100%;
   transition:border-color .16s ease;
 }
 .feat:hover{border-color:rgba(45,125,95,.38)}
 .feat:focus-visible{outline:2px solid #2D7D5F;outline-offset:1px}
 .feat__i{
-  flex:0 0 auto;width:4.6cqw;height:4.6cqw;color:#2D7D5F;
+  flex:0 0 auto;width:6.6cqw;height:6.6cqw;color:#2D7D5F;
 }
 .feat__i--alt{color:#8A6D3B}
 .feat__i svg,.feat__go svg{
@@ -517,25 +538,180 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   stroke-linecap:round;stroke-linejoin:round;
 }
 .feat__txt{display:flex;flex-direction:column;gap:.5cqw;min-width:0}
-.feat__n{font-family:var(--ui);font-size:2.9cqw;font-weight:600;letter-spacing:-.012em;color:#141210}
-.feat__d{font-family:var(--ui);font-size:2.5cqw;font-weight:500;color:#7A7367;
+.feat__n{font-family:var(--ui);font-size:3.3cqw;font-weight:600;letter-spacing:-.012em;color:#141210}
+.feat__d{font-family:var(--ui);font-size:2.8cqw;font-weight:500;color:#7A7367;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.feat__go{flex:0 0 auto;width:3.2cqw;height:3.2cqw;color:#A8A195;margin-left:auto}
+.feat__go{flex:0 0 auto;width:4cqw;height:4cqw;color:#A8A195;margin-left:auto}
 
 /* ── tab bar ── */
 .tabs{background:#FFFDF8;border-top-color:rgba(20,18,16,.11)}
-.tab{color:#8C8578}
+.tab{color:#4A4640}
 .tab__l{font-family:var(--ui);font-weight:600}
 .tab[aria-selected="true"]{background:rgba(45,125,95,.13);color:#141210}
 .tab[aria-selected="true"] .tab__i{color:#2D7D5F}
 .tab:focus-visible{outline-color:#2D7D5F}
 
+
+
+/* ══ middle sections ══════════════════════════════════════════════
+   Namespaced r* so these rules cannot reach back into the hero.
+   ═══════════════════════════════════════════════════════════════ */
+.rwrap{max-width:1320px;margin:0 auto;padding-inline:var(--g)}
+.rsec{padding-block:clamp(56px,7vw,98px)}
+.rsec--paper{background:var(--paper)}
+.rsec--card{background:#FFFDF8}
+.rsec--sage{background:#DDE4DC}
+.rsec--warm{background:#E7E1D3;color:#141210}
+.rsec--last{padding-bottom:clamp(80px,10vw,150px)}
+
+.reye{
+  font-family:var(--rsans);font-size:.71rem;font-weight:500;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+  margin:0 0 18px;
+}
+.rsec--warm .reye{color:var(--ink-faint)}
+
+/* ── reads ───────────────────────────────────────────────────────── */
+.rh2{
+  font-family:var(--rserif);font-weight:400;letter-spacing:-.016em;
+  line-height:1.04;margin:0;
+}
+.rh2--wide{font-size:clamp(2.1rem,5.2vw,4rem);max-width:19ch}
+
+.rpanelwrap{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(38px,5vw,70px)}
+@media(min-width:960px){
+  .rpanelwrap{grid-template-columns:minmax(0,1.55fr) minmax(0,1fr)}
+}
+.rnote{
+  font-family:var(--rsans);font-size:1rem;line-height:1.66;color:var(--ink-soft);
+  align-self:end;border-top:1px solid var(--rule-strong);padding-top:22px;
+}
+.rnote p{margin:0;max-width:40ch}
+
+.rpanel{width:100%;border-collapse:collapse;font-family:var(--rsans)}
+.rpanel caption{
+  text-align:left;font-family:var(--rsans);font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+  padding-bottom:18px;
+}
+.rpanel th,.rpanel td{
+  padding:17px 16px 17px 0;border-bottom:1px solid var(--rule);
+  font-weight:400;text-align:left;font-size:.95rem;
+}
+.rpanel thead th{
+  font-size:.72rem;letter-spacing:.05em;color:var(--ink-faint);
+  padding-bottom:11px;border-bottom-color:var(--rule-strong);
+}
+.rpanel tbody th{font-weight:500;color:var(--ink)}
+.rpanel tbody tr:last-child th,.rpanel tbody tr:last-child td{border-bottom:0}
+.rpanel .num{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-soft)}
+.rflag{font-size:.79rem;letter-spacing:.02em;white-space:nowrap}
+.rflag--hi{color:#9A5B12}
+.rflag--ok{color:#2D6B4E}
+.rflag--lo{color:#41607A}
+
+/* ── does: margin note in the gutter, slab feature titles ────────── */
+.rdoes{display:grid;gap:clamp(34px,4.4vw,72px)}
+@media(min-width:940px){
+  .rdoes{grid-template-columns:minmax(0,.82fr) minmax(0,2.4fr)}
+}
+.rdoes__head .reye{margin-bottom:20px}
+.rdoes__note{
+  font-family:var(--rsans);font-size:1rem;line-height:1.66;
+  color:var(--ink-soft);margin:0;max-width:38ch;
+  padding-left:18px;border-left:2px solid var(--accent);
+}
+.rsteps{list-style:none;margin:0;padding:0;display:grid;gap:clamp(30px,3.4vw,46px)}
+@media(min-width:640px){.rsteps{grid-template-columns:1fr 1fr}}
+.rsteps li{display:block}
+.rsteps .rnum{
+  display:block;font-family:var(--rsans);font-size:.71rem;font-weight:600;
+  letter-spacing:.16em;color:var(--accent);
+  padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--rule);
+}
+/* Bitter is a warm slab. Nothing else on the page uses it, so the four
+   feature titles read as a set rather than as four more headlines. */
+.rsteps h3{
+  font-family:var(--rslab);font-weight:600;letter-spacing:-.012em;
+  font-size:clamp(1.3rem,2.1vw,1.72rem);line-height:1.16;margin:0 0 10px;
+}
+.rsteps p{
+  font-family:var(--rsans);font-size:.95rem;line-height:1.6;
+  color:var(--ink-soft);margin:0;max-width:36ch;
+}
+
+/* ── blood: straight two-up, no eyebrow/headline pairing ──────────── */
+.rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
+@media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
+.rcompare__side h3{
+  font-family:var(--rsans);font-size:.71rem;font-weight:500;
+  letter-spacing:.15em;text-transform:uppercase;color:#4A5A50;
+  margin:0 0 12px;
+}
+.rcompare__big{
+  font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
+  letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
+}
+.rcompare__side--hi .rcompare__big{color:#1F5A48}
+.rcompare__side > p:last-child{
+  font-family:var(--rsans);font-size:1rem;line-height:1.64;
+  color:#3E4A42;margin:0;max-width:42ch;
+}
+
+/* ── method: the dark statement ──────────────────────────────────── */
+.rstatement{
+  font-family:var(--rserif);font-weight:400;
+  font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.02;
+  letter-spacing:-.024em;margin:0;color:#141210;
+}
+.rstatement em{font-style:italic;color:#1F5A48}
+.rnotes{
+  margin:clamp(38px,5vw,64px) 0 0;display:grid;gap:0;
+  border-top:1px solid var(--rule-strong);
+}
+@media(min-width:880px){.rnotes{grid-template-columns:repeat(3,1fr)}}
+.rnotes > div{padding:24px 0}
+.rnotes dt{
+  font-family:var(--rsans);font-size:.71rem;font-weight:500;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
+}
+.rnotes dd{
+  margin:0;font-family:var(--rsans);font-size:.96rem;line-height:1.6;
+  color:var(--ink-soft);max-width:34ch;
+}
+
+/* ── contact ─────────────────────────────────────────────────────── */
+.rcontact{
+  display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(34px,4.4vw,58px);
+}
+@media(min-width:880px){.rcontact{grid-template-columns:1fr 1fr}}
+.rlede{font-family:var(--rsans);font-size:1rem;line-height:1.64;color:var(--ink-soft);margin:0;max-width:44ch}
+.rform{display:grid;gap:8px;max-width:440px}
+.rform label{
+  font-family:var(--rsans);font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);margin-top:6px;
+}
+.rform input,.rform textarea{
+  font-family:var(--rsans);font-size:.95rem;color:var(--ink);
+  background:#FFFDF8;border:1px solid var(--rule);border-radius:0;padding:11px 13px;
+}
+.rform input:focus,.rform textarea:focus{outline:2px solid var(--accent);outline-offset:1px}
+.rform button{
+  justify-self:start;margin-top:12px;
+  font-family:var(--rsans);font-size:.87rem;font-weight:600;
+  background:var(--accent);color:#FFFDF8;border:0;
+  padding:13px 30px;border-radius:999px;cursor:pointer;
+}
+.rform button:hover{background:#1F5A48}
+
+@media(max-width:720px){
+  .rpanel thead{display:none}
+  .rpanel tbody th,.rpanel tbody td{padding:12px 8px 12px 0}
+}
+
 </style>
 </head>
-
 <body>
-
-<!-- ── HERO ───────────────────────────────────────────────── -->
 <section class="hero">
 
   <!-- Landscape slot. Inline SVG ridges with atmospheric perspective —
@@ -577,10 +753,10 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
   </header>
 
   <div class="hero__copy">
-    <h1>Your hair test results, read.</h1>
-    <p>Thirty-one mineral values on a chart. The app reads the
-    <em>relationships</em> between them — which is the only part that means
-    anything.</p>
+    <h1>Your own personal mineral balancing helper.</h1>
+    <p>Your supplements, your symptoms and your test results in one place —
+    so you can see what is working, ask <em>anything</em>, and keep the
+    whole program on track.</p>
   </div>
 
   <!-- the device, breaking out of the landscape -->
@@ -690,13 +866,25 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
           <!-- ── tab bar ───────────────────────────────────── -->
           <div class="tabs" role="tablist" aria-label="Sections">
             <button class="tab" type="button" role="tab" id="t-today" aria-controls="today" aria-selected="true">
-              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.6v2.4M12 19v2.4M2.6 12h2.4M19 12h2.4M5.3 5.3l1.7 1.7M17 17l1.7 1.7M18.7 5.3L17 7M7 17l-1.7 1.7"/></svg></span><span class="tab__l">Today</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6.75 4.828125 4.96875 3.046875 3.5625 4.453125 5.34375 6.234375 6.75 4.828125ZM0.984375 10.5H3.984375V12.515625H0.984375V10.5ZM11.015625 0.5625H12.984375V3.515625H11.015625V0.5625ZM19.03125 3.046875 20.4375 4.453125 18.65625 6.234375 17.25 4.828125 19.03125 3.046875ZM17.25 18.140625 19.03125 19.96875 20.4375 18.5625 18.65625 16.78125 17.25 18.140625ZM20.015625 10.5H23.015625V12.515625H20.015625V10.5ZM12.0 5.484375C8.671875 5.484375 6.0 8.203125 6.0 11.484375C6.0 14.8125 8.671875 17.484375 12.0 17.484375C15.328125 17.484375 18.0 14.8125 18.0 11.484375C18.0 8.203125 15.328125 5.484375 12.0 5.484375ZM12.0 15.515625C9.796875 15.515625 8.015625 13.6875 8.015625 11.484375C8.015625 9.28125 9.796875 7.5 12.0 7.5C14.203125 7.5 15.984375 9.28125 15.984375 11.484375C15.984375 13.6875 14.203125 15.515625 12.0 15.515625ZM11.015625 19.5H12.984375V22.453125H11.015625V19.5ZM3.5625 18.5625 4.96875 19.96875 6.75 18.140625 5.34375 16.734375 3.5625 18.5625Z"/></svg></span><span class="tab__l">Today</span>
+            </button>
+            <button class="tab tab--soon" type="button" role="tab" id="t-htma" aria-selected="false" disabled>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12.984375 11.34375 18.0 18.0H6.0L11.015625 11.34375V6.0H12.984375ZM15.9375 3.984375H8.0625C7.640625 3.984375 7.40625 4.5 7.640625 4.828125L9.0 6.515625V10.6875L3.1875 18.421875C2.71875 19.078125 3.1875 20.015625 3.984375 20.015625H20.015625C20.8125 20.015625 21.28125 19.078125 20.8125 18.421875L15.0 10.6875V6.515625L16.359375 4.828125C16.59375 4.5 16.359375 3.984375 15.9375 3.984375Z"/></svg></span><span class="tab__l">HTMA</span>
             </button>
             <button class="tab" type="button" role="tab" id="t-protocol" aria-controls="protocol" aria-selected="false">
-              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="16" rx="2"/><path d="M3 9.2h18M8 4.5v4.7M16 4.5v4.7M8.4 13.4h3M8.4 16.6h6.4M16.6 13.4h1.6"/></svg></span><span class="tab__l">Protocol</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10.5 15.0H8.015625V12.0H10.5V9.515625H13.5V12.0H15.984375V15.0H13.5V17.484375H10.5V15.0ZM18.984375 8.015625V18.984375C18.984375 20.109375 18.09375 21.0 17.015625 21.0H6.984375C5.90625 21.0 5.015625 20.109375 5.015625 18.984375V8.015625C5.015625 6.890625 5.90625 6.0 6.984375 6.0H17.015625C18.09375 6.0 18.984375 6.890625 18.984375 8.015625ZM17.015625 8.015625H6.984375V18.984375H17.015625V8.015625ZM18.0 3.0H6.0V5.015625H18.0V3.0Z"/></svg></span><span class="tab__l">Supps</span>
+            </button>
+            <button class="tab tab--soon" type="button" role="tab" id="t-ask" aria-selected="false" disabled>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.796875 7.21875 14.8125 7.640625C14.625 7.453125 14.390625 7.3125 14.15625 7.21875L14.015625 6.1875C13.96875 6.046875 13.921875 6.0 13.78125 6.0H12.1875C12.09375 6.0 12.0 6.046875 12.0 6.1875L11.859375 7.21875C11.625 7.3125 11.390625 7.453125 11.203125 7.640625L10.171875 7.21875C10.078125 7.171875 9.984375 7.21875 9.9375 7.3125L9.140625 8.671875C9.09375 8.765625 9.140625 8.90625 9.1875 8.953125L10.03125 9.609375C10.03125 9.75 9.984375 9.890625 9.984375 9.984375C9.984375 10.125 10.03125 10.265625 10.03125 10.40625L9.1875 11.0625C9.09375 11.109375 9.09375 11.203125 9.140625 11.296875L9.9375 12.703125C9.984375 12.796875 10.078125 12.796875 10.171875 12.796875L11.203125 12.375C11.390625 12.5625 11.625 12.65625 11.859375 12.75L12.0 13.828125C12.0 13.921875 12.09375 14.015625 12.1875 14.015625H13.78125C13.921875 14.015625 13.96875 13.921875 14.015625 13.828125L14.15625 12.75C14.390625 12.65625 14.625 12.5625 14.8125 12.375L15.796875 12.796875C15.890625 12.796875 16.03125 12.796875 16.03125 12.703125L16.828125 11.296875C16.921875 11.203125 16.875 11.109375 16.78125 11.0625L15.984375 10.40625C15.984375 10.265625 15.984375 10.125 15.984375 9.984375C15.984375 9.84375 15.984375 9.75 15.984375 9.609375L16.828125 8.953125C16.921875 8.90625 16.921875 8.765625 16.875 8.671875L16.078125 7.3125C16.03125 7.21875 15.890625 7.171875 15.796875 7.21875ZM12.984375 11.4375C12.1875 11.4375 11.578125 10.78125 11.578125 9.984375C11.578125 9.1875 12.1875 8.578125 12.984375 8.578125C13.78125 8.578125 14.4375 9.1875 14.4375 9.984375C14.4375 10.78125 13.78125 11.4375 12.984375 11.4375ZM19.921875 9.046875C19.5 5.8125 16.6875 3.1875 13.40625 3.0C13.265625 3.0 13.125 3.0 12.984375 3.0C9.46875 3.0 6.5625 5.625 6.09375 9.0L4.171875 12.46875C3.75 13.125 4.21875 14.015625 5.015625 14.015625H6.0V15.984375C6.0 17.109375 6.890625 18.0 8.015625 18.0H9.0V21.0H15.984375V16.3125C18.609375 15.046875 20.34375 12.234375 19.921875 9.046875ZM14.90625 14.625 14.015625 15.046875V18.984375H11.015625V15.984375H8.015625V12.0H6.703125L8.015625 9.65625C8.203125 7.078125 10.359375 5.015625 12.984375 5.015625C15.75 5.015625 18.0 7.21875 18.0 9.984375C18.0 12.09375 16.6875 13.875 14.90625 14.625Z"/></svg></span><span class="tab__l">Ask</span>
+            </button>
+            <button class="tab tab--soon" type="button" role="tab" id="t-life" aria-selected="false" disabled>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9.984375 6.0C9.984375 4.875 10.875 3.984375 12.0 3.984375C13.125 3.984375 14.015625 4.875 14.015625 6.0C14.015625 7.125 13.125 8.015625 12.0 8.015625C10.875 8.015625 9.984375 7.125 9.984375 6.0ZM21.0 15.984375V14.015625C18.75 14.015625 16.828125 13.03125 15.421875 11.296875L14.0625 9.703125C13.6875 9.28125 13.125 9.0 12.515625 9.0H11.484375C10.875 9.0 10.3125 9.28125 9.9375 9.703125L8.625 11.296875C7.171875 13.03125 5.25 14.015625 3.0 14.015625V15.984375C5.765625 15.984375 8.203125 14.8125 9.984375 12.75V15.0L6.140625 16.546875C5.4375 16.828125 5.015625 17.484375 5.015625 18.1875C5.015625 19.21875 5.8125 20.015625 6.796875 20.015625H9.0V19.5C9.0 18.140625 10.125 17.015625 11.484375 17.015625H14.484375C14.765625 17.015625 15.0 17.203125 15.0 17.484375C15.0 17.765625 14.765625 18.0 14.484375 18.0H11.484375C10.6875 18.0 9.984375 18.65625 9.984375 19.5V20.015625H17.203125C18.1875 20.015625 18.984375 19.21875 18.984375 18.1875C18.984375 17.484375 18.5625 16.828125 17.859375 16.546875L14.015625 15.0V12.75C15.796875 14.8125 18.234375 15.984375 21.0 15.984375Z"/></svg></span><span class="tab__l">Life</span>
+            </button>
+            <button class="tab tab--soon" type="button" role="tab" id="t-plan" aria-selected="false" disabled>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.984375 6.0V14.015625H18.984375V21.984375H21.0V2.015625C18.234375 2.015625 15.984375 4.21875 15.984375 6.0ZM11.015625 9.0H9.0V2.015625H6.984375V9.0H5.015625V2.015625H3.0V9.0C3.0 11.203125 4.78125 12.984375 6.984375 12.984375V21.984375H9.0V12.984375C11.203125 12.984375 12.984375 11.203125 12.984375 9.0V2.015625H11.015625V9.0Z"/></svg></span><span class="tab__l">Plan</span>
             </button>
             <button class="tab" type="button" role="tab" id="t-progress" aria-controls="progress" aria-selected="false">
-              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3.5 20.5h17"/><path d="M4 17.2l4.6-5.3 3.4 2.6L20 6.2"/><path d="M15.4 6.2H20v4.6"/></svg></span><span class="tab__l">Progress</span>
+              <span class="tab__i" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M15.0 3.984375V11.015625H5.15625L3.984375 12.1875V3.984375H15.0ZM15.984375 2.015625H3.0C2.4375 2.015625 2.015625 2.4375 2.015625 3.0V17.015625L6.0 12.984375H15.984375C16.546875 12.984375 17.015625 12.5625 17.015625 12.0V3.0C17.015625 2.4375 16.546875 2.015625 15.984375 2.015625ZM21.0 6.0H18.984375V15.0H6.0V17.015625C6.0 17.53125 6.46875 18.0 6.984375 18.0H18.0L21.984375 21.984375V6.984375C21.984375 6.46875 21.5625 6.0 21.0 6.0Z"/></svg></span><span class="tab__l">Group</span>
             </button>
           </div>
       </div>
@@ -707,8 +895,24 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 
 <!-- ── store CTA, in the gap the device leaves ────────────── -->
 <div class="wrap" style="text-align:center">
+    <!-- Direct APK. Release asset, not in the Pages repo, so the 1GB
+         Pages limit does not apply and the file can be replaced freely. -->
+    <a class="dl" href="https://github.com/lucasmcducas/htma_mobile_site/releases/download/v0.1.0/app-release.apk" download
+       aria-label="Download HTMA Labs for Android, version 0.1.0">
+      <svg class="dl__glyph" width="18" height="20" viewBox="0 0 18 20" aria-hidden="true">
+        <path d="M9 1.6v10.2M5.2 8.2 9 12l3.8-3.8" fill="none" stroke="currentColor"
+              stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2.6 14.4v2.2a1.8 1.8 0 0 0 1.8 1.8h9.2a1.8 1.8 0 0 0 1.8-1.8v-2.2"
+              fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+      </svg>
+      <span class="dl__txt">
+        <b>Download for Android</b>
+        <i>Version 0.1.0 &middot; 63 MB &middot; Android 7.0+</i>
+      </span>
+    </a>
+
   <div class="stores">
-    <!-- TODO(real URLs): inert until release. No keystore or store listing yet. -->
+    <!-- TODO(real URLs): inert until release. No store listing yet. -->
     <a class="store" aria-disabled="true" href="#" data-store="ios"
        aria-label="Download on the App Store — publishing soon">
       <svg class="store__glyph" width="19" height="21" viewBox="0 0 19 21" fill="currentColor" aria-hidden="true">
@@ -729,169 +933,137 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
 <div class="wrap">
 
   <!-- ── what it reads ──────────────────────────────────── -->
-  <section class="section" id="reads">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">What it reads</p>
-        <h2>A snapshot tells you what is moving. A chart tells you what is stored.</h2>
-      </div>
-      <p class="lede">Hair tissue mineral analysis records deposition over roughly
-      three months of growth. Nothing about it is a snapshot — which is what makes
-      the ratios on the chart worth having explained to you.</p>
-    </div>
+  
+<!-- ══ reads — the chart as a document ═════════════════════════ -->
+<section class="rsec rsec--paper" id="reads">
+  <div class="rwrap">
+    <p class="reye">What it reads</p>
+    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. A chart tells you what is stored.</h2>
 
-    <div class="m">
-      <div class="m__head"><span>No.</span><span>Element</span><span>Range</span><span>Reading</span></div>
-      <table class="m__t">
-        <caption class="vh">Illustrative hair-tissue mineral reference ranges with example readings</caption>
+    <div class="rpanelwrap">
+      <table class="rpanel">
+        <caption>Sample panel — 31 values, 5 shown</caption>
+        <thead><tr>
+          <th scope="col">Element</th>
+          <th scope="col" class="num">Reference</th>
+          <th scope="col" class="num">Reading</th>
+          <th scope="col">Flag</th>
+        </tr></thead>
         <tbody>
-          <tr><td class="m__n">01</td><th scope="row"><span class="m__sym">Sodium</span></th><td class="m__v">1.10 – 2.40</td><td><span class="m__flag m__flag--mid">Fast mixed</span></td></tr>
-          <tr><td class="m__n">02</td><th scope="row"><span class="m__sym">Potassium</span></th><td class="m__v">0.60 – 1.40</td><td><span class="m__flag m__flag--mid">Fast mixed</span></td></tr>
-          <tr><td class="m__n">03</td><th scope="row"><span class="m__sym">Calcium</span></th><td class="m__v">2.10 – 2.70</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
-          <tr><td class="m__n">04</td><th scope="row"><span class="m__sym">Phosphorus</span></th><td class="m__v">2.50 – 3.50</td><td><span class="m__flag m__flag--hi">High</span></td></tr>
-          <tr><td class="m__n">05</td><th scope="row"><span class="m__sym">Magnesium</span></th><td class="m__v">1.70 – 3.40</td><td><span class="m__flag m__flag--lo">Low</span></td></tr>
-          <tr><td class="m__n">06</td><th scope="row"><span class="m__sym">Zinc</span></th><td class="m__v">6.00 – 12.00</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
-          <tr><td class="m__n">07</td><th scope="row"><span class="m__sym">Copper</span></th><td class="m__v">4.00 – 8.00</td><td><span class="m__flag m__flag--hi">High</span></td></tr>
-          <tr><td class="m__n">08</td><th scope="row"><span class="m__sym">Iron</span></th><td class="m__v">5.00 – 14.00</td><td><span class="m__flag m__flag--ok">In range</span></td></tr>
+          <tr><th scope="row">Sodium</th>   <td class="num">70 — 200</td><td class="num">118</td><td><span class="rflag rflag--hi">Fast mixed</span></td></tr>
+          <tr><th scope="row">Calcium</th>  <td class="num">80 — 200</td><td class="num">96</td> <td><span class="rflag rflag--ok">In range</span></td></tr>
+          <tr><th scope="row">Magnesium</th><td class="num">28 — 100</td><td class="num">22</td> <td><span class="rflag rflag--lo">Low</span></td></tr>
+          <tr><th scope="row">Zinc</th>     <td class="num">60 — 180</td><td class="num">71</td> <td><span class="rflag rflag--ok">In range</span></td></tr>
+          <tr><th scope="row">Copper</th>   <td class="num">50 — 170</td><td class="num">188</td><td><span class="rflag rflag--hi">High</span></td></tr>
         </tbody>
       </table>
-      <p class="m__foot">Illustrative reference ranges — Trace Elements, published
-      hair-tissue values. Not a result, and not advice.</p>
+
+      <aside class="rnote">
+        <p>Hair tissue mineral analysis records deposition over roughly three
+        months of growth. The app reads the relationships between the numbers,
+        which is the only part that means anything.</p>
+      </aside>
     </div>
-  </section>
+  </div>
+</section>
 
-  <hr class="rule">
-
-  <!-- ── what it does ───────────────────────────────────── -->
-  <section class="section" id="does">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">What it does</p>
-        <h2>Four things, done properly.</h2>
+<!-- ══ does — gutter note + slab titles, no headline pairing ═════ -->
+<section class="rsec rsec--card" id="does">
+  <div class="rwrap">
+    <div class="rdoes">
+      <div class="rdoes__head">
+        <p class="reye">What it does</p>
+        <p class="rdoes__note">A chart with forty numbers on it is not
+        information. The app finds the patterns, tells you which are worth
+        acting on, and keeps tracking them across retests.</p>
       </div>
-      <p class="lede">A chart with forty numbers on it is not information. The app
-      finds the patterns, tells you which ones are worth acting on, and keeps
-      tracking them across retests.</p>
+
+      <ol class="rsteps">
+        <li>
+          <span class="rnum">01</span>
+          <h3>Read your chart</h3>
+          <p>Upload a report from any lab, or have one sent to you directly.
+          No re-keying forty values by hand.</p>
+        </li>
+        <li>
+          <span class="rnum">02</span>
+          <h3>See the patterns</h3>
+          <p>Ratio patterns like Four Lows and adrenal or thyroid groupings,
+          flagged in plain language rather than mineral shorthand.</p>
+        </li>
+        <li>
+          <span class="rnum">03</span>
+          <h3>Follow a protocol</h3>
+          <p>Recommendations drawn from your own results, with supplement
+          doses and a day-to-day plan you can actually keep.</p>
+        </li>
+        <li>
+          <span class="rnum">04</span>
+          <h3>Send it on</h3>
+          <p>Share the report with your practitioner in one tap, and compare
+          side by side across retests.</p>
+        </li>
+      </ol>
     </div>
+  </div>
+</section>
 
-    <div class="rows">
-      <div class="row">
-        <div class="row__n">01</div>
-        <div class="row__t">Read your chart</div>
-        <p>Upload a report from any lab, or have one sent to you directly.
-        No re-keying forty values by hand.</p>
+<!-- ══ blood — a straight two-up, no head pairing ════════════════ -->
+<section class="rsec rsec--sage" id="blood">
+  <div class="rwrap">
+    <p class="reye">Why hair</p>
+    <div class="rcompare">
+      <div class="rcompare__side">
+        <h3>Blood</h3>
+        <p class="rcompare__big">A moment</p>
+        <p>Accurate, cheap and fast. But it only catches what has changed in
+        the last few hours or days, so an early deficiency can look normal.</p>
       </div>
-      <div class="row">
-        <div class="row__n">02</div>
-        <div class="row__t">See the patterns</div>
-        <p>Ratio patterns like Four Lows and adrenal or thyroid groupings,
-        flagged in plain language rather than mineral shorthand.</p>
-      </div>
-      <div class="row">
-        <div class="row__n">03</div>
-        <div class="row__t">Follow a protocol</div>
-        <p>Recommendations drawn from your own results, with supplement doses
-        and a day-to-day plan you can actually keep.</p>
-      </div>
-      <div class="row">
-        <div class="row__n">04</div>
-        <div class="row__t">Send it on</div>
-        <p>Share the report with your practitioner in one tap, and compare side
-        by side when you retest.</p>
-      </div>
-    </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- ── blood vs hair ──────────────────────────────────── -->
-  <section class="section band" id="blood" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">Why hair</p>
-        <h2>Blood is a photograph. Hair is a film.</h2>
-      </div>
-      <p class="lede">Blood shows what is in circulation right now, and your body
-      works hard to keep those numbers steady by pulling from tissue. Hair records
-      what was actually stored.</p>
-    </div>
-
-    <div class="compare">
-      <div class="compare__row">
-        <div class="compare__key">Blood</div>
-        <div class="compare__body">
-          <p>Measures what is moving at one moment. Read a different value on a
-          different day without anything about you having changed.</p>
-          <p>A snapshot can look fine while the pattern underneath it is not.</p>
-        </div>
-      </div>
-      <div class="compare__row">
-        <div class="compare__key compare__key--accent">Hair</div>
-        <div class="compare__body">
-          <p>Records deposition across roughly three months of growth. The ratios
-          are the point, and they need someone who knows how to read them.</p>
-          <p>That is what the app is for — and what your practitioner is for.</p>
-        </div>
+      <div class="rcompare__side rcompare__side--hi">
+        <h3>Hair</h3>
+        <p class="rcompare__big">Three months</p>
+        <p>Records deposition as the hair grows, so a pattern that blood
+        misses becomes visible. Harder to interpret — and useless without
+        someone who knows how to read it.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <hr class="rule">
+<!-- ══ method — the page's one dark beat, on its strongest line ═══ -->
+<section class="rsec rsec--warm">
+  <div class="rwrap">
+    <p class="reye">The method</p>
+    <p class="rstatement">Forty years old.<br><em>Not a trend.</em></p>
+    <dl class="rnotes">
+      <div><dt>Sample</dt><dd>A lock of hair, cut close to the scalp. No needle, no fasting, no preparation.</dd></div>
+      <div><dt>Window</dt><dd>Roughly three months of deposition — long enough for a pattern, short enough to show change after a retest.</dd></div>
+      <div><dt>Method</dt><dd>ICP-MS spectrometry, the same technique used for soil and water testing.</dd></div>
+    </dl>
+  </div>
+</section>
 
-  <!-- ── method ─────────────────────────────────────────── -->
-  <section class="section">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">The method</p>
-        <h2>Forty years old. Not a trend.</h2>
-      </div>
-      <div>
-        <p class="lede">Hair tissue mineral analysis was pioneered by Dr. Paul Eck
-        and refined by Dr. Lawrence Wilson. The app is a reading tool for that
-        methodology — it does not replace the person who ordered your test.</p>
-        <dl class="facts">
-          <div class="fact"><dt>Method</dt><dd><b>40+ years</b> of clinical use</dd></div>
-          <div class="fact"><dt>Sample</dt><dd><b>Non-invasive</b> — a lock of hair</dd></div>
-          <div class="fact"><dt>Window</dt><dd><b>~3 months</b> of deposition</dd></div>
-        </dl>
-      </div>
+<!-- ══ contact — the disclaimer becomes the heading ══════════════ -->
+<section class="rsec rsec--paper rsec--last" id="contact">
+  <div class="rwrap">
+    <p class="reye">Contact</p>
+    <h2 class="rh2">Screening and record-keeping.<br>Not a diagnosis.</h2>
+
+    <div class="rcontact">
+      <p class="rlede">Every number on a mineral chart is a measurement, not a
+      verdict. For interpretation, talk to the practitioner who ordered your
+      test. If the app is showing you a wrong number, say so.</p>
+      <form class="rform" onsubmit="event.preventDefault()">
+        <label for="pv-em">Email</label>
+        <input id="pv-em" type="email" placeholder="you@example.com">
+        <label for="pv-ms">Message</label>
+        <textarea id="pv-ms" rows="3" placeholder="What happened?"></textarea>
+        <button type="submit">Send</button>
+      </form>
     </div>
-  </section>
-
-  <hr class="rule">
-
-  <!-- ── contact ────────────────────────────────────────── -->
-  <section class="section" id="contact">
-    <div class="section__head">
-      <div>
-        <p class="eyebrow">Contact</p>
-        <h2>Questions, bugs, or an awkward chart.</h2>
-      </div>
-      <p class="lede">Tell us what you are trying to do and we will answer plainly.
-      If the app is showing you a wrong number, say so.</p>
-    </div>
-
-    <!-- TODO(endpoint): needs a real form backend; falls back to the mail client. -->
-    <form class="form" action="mailto:hello@htma.mobile" method="post" enctype="text/plain">
-      <div class="field">
-        <label for="f-name">Your name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name" placeholder="Jane Doe" required>
-      </div>
-      <div class="field">
-        <label for="f-email">Email</label>
-        <input id="f-email" name="email" type="email" autocomplete="email" placeholder="jane@example.com" required>
-      </div>
-      <div class="field">
-        <label for="f-msg">Message</label>
-        <textarea id="f-msg" name="message" rows="4" placeholder="What do you need?"></textarea>
-      </div>
-      <button class="btn" type="submit">Send</button>
-      <p class="form__note">We reply to product questions ourselves. Nothing here is
-      medical advice — for interpretation, talk to the practitioner who ordered your test.</p>
-    </form>
-  </section>
-
-  <footer class="foot" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
+  </div>
+</section>
+<footer class="foot" style="margin-inline:calc(var(--g) * -1);padding-inline:var(--g)">
     <div class="foot__top">
       <a class="mark" href="/">HTMA <span>Mobile</span></a>
       <div class="foot__links">
@@ -1015,8 +1187,11 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
       '<span class="dose__txt"><span class="dose__name">First full week logged</span>' +
       '<span class="dose__meta">Reached 23 June</span></span></div>';
 
-  /* tab switching */
-  var tabs = document.querySelectorAll('.tab');
+  /* Tab switching. The bar mirrors the real app's seven tabs, but only
+     three own a screen in this mockup (today / protocol / progress). The
+     rest are rendered disabled and dimmed: showing seven live tabs that
+     mostly lead nowhere would overstate the product. */
+  var tabs = document.querySelectorAll('.tab:not([disabled])');
   var panes = document.querySelectorAll('.pane');
   function showTab(want) {
     tabs.forEach(function (o) {
