@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — HTMA Mobile</title>
+<meta name="theme-color" content="#12354C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,200..500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#12222C; --ink-soft:#41525C; --ink-faint:#7C8A93;
+  --rule:#D9DEE1; --paper:#FAFAF8; --accent:#1F5C7A;
+  --serif:"Newsreader",Georgia,serif;
+  --label:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--serif);min-height:100vh;
+  display:flex;align-items:center;justify-content:center;padding:24px;
+}
+main{max-width:46ch;text-align:center}
+.mark{
+  font-family:var(--serif);font-size:1.1rem;text-decoration:none;
+  color:var(--ink);display:inline-block;margin-bottom:38px;
+}
+.mark span{
+  font-family:var(--label);font-size:.66em;letter-spacing:.06em;
+  color:var(--ink-faint);margin-left:.5em;vertical-align:.15em;
+}
+h1{
+  font-weight:200;font-size:clamp(2rem,7vw,3.2rem);
+  line-height:1.04;letter-spacing:-.03em;margin:0 0 14px;
+}
+p{
+  color:var(--ink-soft);font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:14px;line-height:1.6;margin:0 0 26px;
+}
+a{
+  color:var(--accent);text-decoration:none;border-bottom:1px solid var(--rule);
+  padding-bottom:2px;
+}
+a:hover{border-bottom-color:var(--accent)}
+.links{display:flex;gap:20px;justify-content:center;font-family:var(--label);font-size:13px}
+</style>
+</head>
+<body>
+<main>
+  <a class="mark" href="/">HTMA <span>Mobile</span></a>
+  <h1>Nothing here.</h1>
+  <p>That page does not exist. It may have moved, or the link may be wrong.</p>
+  <p class="links">
+    <a href="/">Home</a>
+    <a href="/privacy">Privacy</a>
+    <a href="/terms">Terms</a>
+  </p>
+</main>
+</body>
+</html>
