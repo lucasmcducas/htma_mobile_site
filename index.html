@@ -921,14 +921,20 @@ h2{font-size:clamp(1.75rem,3.3vw,3rem);margin:14px 0 0}
       </svg>
       <span class="store__txt"><b>App Store</b><i>iOS not yet available</i></span>
           </a>
-          <a class="store" download="htma-mobile-0.1.1.apk"
-             href="https://github.com/lucasmcducas/htma_mobile_site/releases/download/v0.1.1/htma-mobile-0.1.1.apk"
+          <!-- Android: temporarily hidden from public download (2026-10-14).
+             The signed v0.1.1 build is still published and the GitHub release
+             asset is untouched — only this link is inert, so the APK is no
+             longer offered to strangers while we finish Play registration.
+             Restore by dropping aria-disabled, restoring href/download, and
+             putting the caption back. See
+             memory-htma-mobile/workflows/htma-mobile-site-deploy.md -->
+          <a class="store" aria-disabled="true" href="#"
              data-store="android"
-             aria-label="Download the HTMA Mobile Android app, version 0.1.1">
+             aria-label="Android download coming soon">
             <svg class="store__glyph" width="19" height="21" viewBox="0 0 19 21" fill="currentColor" aria-hidden="true">
                         <path d="M1.2.8C.8 1.2.5 1.9.5 2.7v15.6c0 .8.3 1.5.7 1.9l.1.1 8.7-8.7v-.2L1.3.7l-.1.1zM13.1 12.1l3.5 2c1 .6 1 1.5 0 2.1l-3.5 1.8h-.1zM3.1 17.8l8-8-8-8-3.4 2c-.9.5-1.4 1.4-1.4 2.5v9c0 1.1.5 2 1.4 2.5l3.4-2z"/>
                       </svg>
-            <span class="store__txt"><b>Download for Android</b><i>Version 0.1.1 &middot; 70 MB</i></span>
+            <span class="store__txt"><b>Android</b><i>Coming soon</i></span>
           </a>
   </div>
 </div>
