@@ -174,7 +174,7 @@ or delete your data at any time.</p>
     <tr>
       <td>Crash reports and technical diagnostics</td>
       <td>Automatically, if the app crashes</td>
-      <td>To find and fix faults. Set to not send personal information — see section 4.</td>
+      <td>To find and fix faults. On by default, and you can turn it off in Settings — see section 4.</td>
     </tr>
     <tr>
       <td>Purchase confirmation</td>
@@ -200,8 +200,11 @@ advertising or data-broker profiles.</p>
   written data-processing agreement. Your data stays in the United States.</li>
   <li><strong>Stripe</strong> — payments and subscriptions. Stripe handles card
   data; we receive only a confirmation and the last four digits.</li>
-  <li><strong>Sentry</strong> — crash reporting. Personal information is
-  disabled.</li>
+  <li><strong>Crash reports</strong> go to us, not to a third party. If the
+  app crashes, a minimal diagnostic — the type of error, a scrubbed message, a
+  stack trace, your app version, device model and the build — is stored in our
+  own database (Supabase) so we can find and fix the fault. No third-party
+  error-tracking service receives it.</li>
   <li><strong>MiniMax</strong> — the AI provider that answers your questions.
   It receives only what section 4 describes. MiniMax is operated by
   Nanonoble Pte. Ltd. (Singapore), which states that API data is stored in a
@@ -280,9 +283,44 @@ question instead.</p>
 
 <h3>Crash reports</h3>
 
-<p>Crash reporting is configured not to send personal information — no email,
-no name, no report content. Reports include the app version, device model and
-the error itself.</p>
+<p>If the app crashes, we collect a minimal diagnostic so we can find and fix
+the fault. It contains:</p>
+
+<ul>
+  <li>the type of the error;</li>
+  <li>the error message, with file paths, web addresses, email addresses and
+  long tokens removed;</li>
+  <li>the stack trace;</li>
+  <li>your app version, device model and operating-system version; and</li>
+  <li>the build the app came from.</li>
+</ul>
+
+<p><strong>It does not contain</strong> your name, your email address, your
+chart, your mineral values, your notes, your symptom log, or any photo or
+report you uploaded. None of that is ever attached to an automatic crash
+report. If you write us a bug report yourself through Settings &rarr; Report a
+Problem, that message is yours — we store what you typed and send it as you
+wrote it.</p>
+
+<h4>Your choice</h4>
+
+<p>Crash reporting is <strong>on by default</strong>. We do this because a
+fault we cannot see is a fault we cannot fix, and because what is sent is
+limited to the list above. It is not hidden: the app tells you the first time
+it opens, and the setting is always one tap away in
+<strong>Settings &rarr; Crash reports</strong>, where you have three
+choices:</p>
+
+<ul>
+  <li><strong>Always send</strong> — minimal diagnostics go out without asking.</li>
+  <li><strong>Ask me each time</strong> — the app shows you exactly what it
+  would send and waits for you to confirm. Nothing goes out until you tap send.</li>
+  <li><strong>Never send</strong> — nothing is sent at all.</li>
+</ul>
+
+<p>Your choice is saved to your account, so it follows you if you reinstall
+the app or use another device. Choosing "Never send" also stops the crash
+prompt from appearing.</p>
 
 <h2>5. Your choices and rights</h2>
 
