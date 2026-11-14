@@ -19,10 +19,14 @@ foot_start = h.find("<footer")
 
 # The middle boundary MOVES as the middle is rewritten. The old page used
 # <section class="section" id="reads">; the current one uses the r* namespaced
-# <section class="rsec rsec--paper" id="reads">. Accept either, and fail loudly
-# if neither is found — a silent find() == -1 makes `top` swallow the entire
-# middle and then re-inject a second copy (an 80k-char page from a 63k source).
+# The middle section was RENAMED from "reads" to "track" when the page was
+# restructured, so the old marker no longer matched and the build refused.
+# Accept the current name plus the historical ones, and fail loudly if
+# none is found — a silent find() == -1 makes `top` swallow the entire
+# middle and then re-inject a second copy (an 80k-char page from a 63k
+# source).
 MID_MARKERS = (
+    '<section class="rsec rsec--paper" id="track">',
     '<section class="rsec rsec--paper" id="reads">',
     '<section class="section" id="reads">',
 )
@@ -46,9 +50,11 @@ head = re.sub(
     r'<link href="https://fonts\.googleapis\.com/css2\?[^"]*"',
     '<link href="https://fonts.googleapis.com/css2?'
     'family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..400'
-    '&family=Instrument+Serif:ital@0;1'
-    '&family=Bitter:ital,wght@0,300;0,400;0,500;0,700;1,400'
-    '&family=Space+Grotesk:wght@400;500;700'
+    '&family=Fraunces:ital,opsz,wght,SOFT,WONK@'
+    '0,9..144,300..700,0..100,0..1;'
+    '1,9..144,300..700,0..100,0..1'
+    '&family=IBM+Plex+Mono:ital,wght@0,400;0,500;1,400'
+    '&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400'
     '&display=swap"',
     head, count=1)
 
@@ -56,9 +62,24 @@ head = re.sub(
 # pointing them at the preview fonts silently restyles the top. Leave the
 # page's own variables exactly as index.html defines them and give the
 # preview sections their own namespaced stacks instead.
-head = head.replace(':root{', ':root{\n  --rserif:"Instrument Serif","Newsreader",Georgia,serif;\n'
-                                  '  --rslab:"Bitter",Georgia,serif;\n'
-                                  '  --rsans:"Space Grotesk",-apple-system,"Segoe UI",Roboto,sans-serif;')
+# index.html already declares --rserif/--rslab/--rsans inside its own :root,
+# so injecting here would create duplicate keys in the SAME block and the later
+# (stale) copy would win on source order — which is exactly how Fraunces
+# silently resolved to Instrument Serif. Append a separate :root AFTER the
+# original instead, so the override is unambiguous.
+PREVIEW_VARS = (
+    ':root{\n'
+    '  --rserif:"Fraunces","Newsreader",Georgia,serif;\n'
+    '  --rslab:"Bitter",Georgia,serif;\n'
+    '  --rsans:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;\n'
+    '  --rmono:"IBM Plex Mono",ui-monospace,Menlo,monospace;\n'
+    '}'
+)
+if '--rserif:' in head:
+    # index.html owns these names; a second :root at the end of <style> wins.
+    head = head + '\n' + PREVIEW_VARS
+else:
+    head = head.replace(':root{', PREVIEW_VARS + '\n:root{')
 
 # ── the middle ─────────────────────────────────────────────────────
 # What read as generated was structural, not cosmetic: five sections
@@ -77,7 +98,7 @@ MID = r'''
 <section class="rsec rsec--paper" id="reads">
   <div class="rwrap">
     <p class="reye">What it reads</p>
-    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. A chart tells you what is stored.</h2>
+    <h2 class="rh2 rh2--wide">A snapshot tells you what is moving. <em>A chart tells you what is stored.</em></h2>
 
     <div class="rpanelwrap">
       <table class="rpanel">
@@ -225,19 +246,36 @@ EXTRA = r'''
 .rsec--warm{background:#E7E1D3;color:#141210}
 .rsec--last{padding-bottom:clamp(80px,10vw,150px)}
 
+/* Eyebrows are field labels off an instrument panel, not marketing copy —
+   mono says that without shouting. */
 .reye{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+  font-family:var(--rmono);font-size:.7rem;font-weight:500;
+  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
   margin:0 0 18px;
 }
 .rsec--warm .reye{color:var(--ink-faint)}
 
 /* ── reads ───────────────────────────────────────────────────────── */
-.rh2{
-  font-family:var(--rserif);font-weight:400;letter-spacing:-.016em;
-  line-height:1.04;margin:0;
+/* Fraunces has four axes. At its defaults it is a fairly ordinary old-style.
+   These settings are what make it recognisable:
+     opsz 144  — display optical size: extreme thick/thin, high contrast
+     SOFT 0    — no rounding; the terminals stay sharp and drawn
+     WONK 1    — the wonky/quirky alternates (swash g, odd y) engage
+   300 on the weight axis is deliberately light, so the stroke contrast has
+   room to read instead of turning into a black blob at bold weights. */
+.rsec--paper .rh2{
+  font-family:var(--rserif);font-weight:300;letter-spacing:-.018em;
+  line-height:1.02;margin:0;
+  font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
 }
-.rh2--wide{font-size:clamp(2.1rem,5.2vw,4rem);max-width:19ch}
+.rh2--wide{font-size:clamp(2.2rem,5.4vw,4.2rem);max-width:19ch}
+/* The italic clause is the pivot, so it must NOT carry display contrast —
+   opsz 144 hairline strokes plus a slant turns to mud. Pull it down to a
+   text optical size and let the weight difference do the separating. */
+.rh2 em{
+  font-style:italic;font-weight:400;
+  font-variation-settings:"opsz" 48,"SOFT" 0,"WONK" 1;
+}
 
 .rpanelwrap{display:grid;gap:clamp(30px,4vw,64px);margin-top:clamp(38px,5vw,70px)}
 @media(min-width:960px){
@@ -251,8 +289,8 @@ EXTRA = r'''
 
 .rpanel{width:100%;border-collapse:collapse;font-family:var(--rsans)}
 .rpanel caption{
-  text-align:left;font-family:var(--rsans);font-size:.7rem;font-weight:500;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--ink-faint);
+  text-align:left;font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);
   padding-bottom:18px;
 }
 .rpanel th,.rpanel td{
@@ -265,8 +303,17 @@ EXTRA = r'''
 }
 .rpanel tbody th{font-weight:500;color:var(--ink)}
 .rpanel tbody tr:last-child th,.rpanel tbody tr:last-child td{border-bottom:0}
-.rpanel .num{font-variant-numeric:tabular-nums;text-align:right;color:var(--ink-soft)}
-.rflag{font-size:.79rem;letter-spacing:.02em;white-space:nowrap}
+/* Numbers are data. Mono with tabular figures keeps the decimal points in a
+   vertical line down the column, which a proportional sans cannot do. */
+.rpanel .num{
+  text-align:right;color:var(--ink-soft);
+  font-family:var(--rmono);font-variant-numeric:tabular-nums;
+  font-size:.88rem;letter-spacing:-.02em;
+}
+.rflag{
+  font-size:.74rem;letter-spacing:.04em;white-space:nowrap;
+  font-family:var(--rmono);text-transform:uppercase;
+}
 .rflag--hi{color:#9A5B12}
 .rflag--ok{color:#2D6B4E}
 .rflag--lo{color:#41607A}
@@ -286,8 +333,8 @@ EXTRA = r'''
 @media(min-width:640px){.rsteps{grid-template-columns:1fr 1fr}}
 .rsteps li{display:block}
 .rsteps .rnum{
-  display:block;font-family:var(--rsans);font-size:.71rem;font-weight:600;
-  letter-spacing:.16em;color:var(--accent);
+  display:block;font-family:var(--rmono);font-size:.68rem;font-weight:600;
+  letter-spacing:.1em;color:var(--accent);
   padding-bottom:12px;margin-bottom:16px;border-bottom:1px solid var(--rule);
 }
 /* Bitter is a warm slab. Nothing else on the page uses it, so the four
@@ -305,27 +352,42 @@ EXTRA = r'''
 .rcompare{display:grid;gap:clamp(34px,4.6vw,80px);margin-top:clamp(34px,4.6vw,64px)}
 @media(min-width:820px){.rcompare{grid-template-columns:1fr 1fr}}
 .rcompare__side h3{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.15em;text-transform:uppercase;color:#4A5A50;
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:#4A5A50;
   margin:0 0 12px;
 }
-.rcompare__big{
+/* opsz 9 + heavy weight is the *text* optical size, which gives a sturdier,
+   less fragile letter at 60px than the display cut does. */
+.rcompare__side .rcompare__big{
   font-family:var(--rserif);font-size:clamp(2.2rem,5.6vw,3.9rem);
   letter-spacing:-.02em;line-height:1;margin:0 0 18px;color:#141210;
+  font-weight:600;font-variation-settings:"opsz" 20,"SOFT" 0,"WONK" 0;
 }
-.rcompare__side--hi .rcompare__big{color:#1F5A48}
+/* The hair side is the answer, so it is the italic and it goes wonky-soft.
+   Left side is upright and heavy — same face, opposite voice. */
+.rcompare__side--hi .rcompare__big{
+  color:#1F5A48;font-style:italic;font-weight:400;
+  font-variation-settings:"opsz" 60,"SOFT" 20,"WONK" 1;
+}
 .rcompare__side > p:last-child{
   font-family:var(--rsans);font-size:1rem;line-height:1.64;
   color:#3E4A42;margin:0;max-width:42ch;
 }
 
 /* ── method: the dark statement ──────────────────────────────────── */
-.rstatement{
-  font-family:var(--rserif);font-weight:400;
+/* opsz 144 pushes display contrast; the italic below drops to opsz 9 and
+   leans into WONK, so the two lines read as two voices of one face
+   rather than one thing bolded. */
+.rsec--warm .rstatement{
+  font-family:var(--rserif);font-weight:300;
   font-size:clamp(2.6rem,8vw,5.6rem);line-height:1.02;
   letter-spacing:-.024em;margin:0;color:#141210;
+  font-variation-settings:"opsz" 144,"SOFT" 0,"WONK" 1;
 }
-.rstatement em{font-style:italic;color:#1F5A48}
+.rsec--warm .rstatement em{
+  font-style:italic;color:#1F5A48;font-weight:400;
+  font-variation-settings:"opsz" 9,"SOFT" 0,"WONK" 1;
+}
 .rnotes{
   margin:clamp(38px,5vw,64px) 0 0;display:grid;gap:0;
   border-top:1px solid var(--rule-strong);
@@ -333,8 +395,8 @@ EXTRA = r'''
 @media(min-width:880px){.rnotes{grid-template-columns:repeat(3,1fr)}}
 .rnotes > div{padding:24px 0}
 .rnotes dt{
-  font-family:var(--rsans);font-size:.71rem;font-weight:500;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
+  font-family:var(--rmono);font-size:.68rem;font-weight:500;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 10px;
 }
 .rnotes dd{
   margin:0;font-family:var(--rsans);font-size:.96rem;line-height:1.6;
@@ -382,8 +444,8 @@ extra = EXTRA
 # r"\.rsec--paper\{" never matches a plain string, so the de-dup silently
 # did nothing and every rule shipped twice.
 for _sel, _pat in ((".rsec--paper{", r"^\.rsec--paper\{[^}]*\}\n"),
-                   (".rstatement{",    r"^\.rstatement\{[^}]*\}\n"),
-                   (".pvtag{",         r"^\.pvtag\{[^}]*\}\n")):
+                   (".pvtag{",         r"^\.pvtag\{[^}]*\}\n"),
+                   ("--rserif:",       r"^\s*--rserif:[^\n]*\n")):
     if _sel in head:
         extra = _re.sub(_pat, "", extra, count=1, flags=_re.M)
 
@@ -391,10 +453,14 @@ out = (head + extra + "\n</style>\n</head>\n<body>\n"
        + top + MID + tail
        + '\n<div class="pvtag">Structure preview — hero untouched · index.html not modified</div>\n')
 
-for rule in (".rsec--paper{", ".rstatement{"):
+# index.html declares --rserif/--rslab/--rsans itself, so the preview's
+# override :root must be the LAST one in source order or it silently loses.
+for rule in (".rsec--paper{",):
     n = out.count(rule)
     if n != 1:
         sys.exit(f"rule {rule} appears {n}x in the built preview — aborting")
+if out.rfind("--rserif:") < out.find("--rserif:"):
+    sys.exit("preview --rserif override is not last; index.html would win")
 open(dst, "w", encoding="utf-8").write(out)
 print(f"  wrote {dst}  ({len(out)} chars)")
 print("  hero copied verbatim:", top == h[top_start:mid_start])
